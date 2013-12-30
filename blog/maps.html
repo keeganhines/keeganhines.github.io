@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Keegan Hines : github home page" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="../stylesheets/stylesheet.css">
+
+    <title>Shiny Apps and ggmaps</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/keeganhines">View on GitHub</a>
+
+          <h1 id="project_title">Keegan Hines</h1>
+
+
+        
+	<ul class="nav">
+	  <li ><a href="../../index.html"> Home </a></li>
+	 <li > <a href="../../academics/index.html"> Academics </a></li>
+	 <li ><a href="../../../blog/index.html"> Blog </a> </li>
+	</ul>
+    </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h3>
+
+<h1>Shiny Apps and ggmaps </h1>
+
+<p>
+I'm going to describe my new favorite toy from the R community: the <a href="http://www.rstudio.com/shiny/" target="_blank">Shiny</a> package. This package makes it super easy to create awesome interactive visualizations using web browser-based applications. Importantly, all the potentially difficult stuff that is required to yield interactive web browser experiences (ie. javascript) is abstracted away from the user of Shiny, so that only some simple R code needs to be written, and all the rest is taken care of behind the scenes. Also, the resulting web application can be hosted by the Rstudio folks so you can share your visualization with the world. To me, that aspect makes this most exciting since it opens up the potential for all kinds of interactive experiences for the communiction of scientific ideas. 
+</p>
+<p>
+Generally, I'll be excited to use this tool both for teaching and for the presentation of data, but this example just showcases the basic things that can be done. This application simply generates pretty maps of any location you like, but it shows off how all your favorite R packages can be incorpated into such interative apps. In particular, this app calls upon the packages <strong> ggmaps</strong> and <strong>maptools </strong> to fetch data from GoogleMaps and render the spatial data using the watercolor aesthetic from <a href="http://maps.stamen.com" target="_blank" > Stamen</a> Design. The resulting application is hosted at <a href="http://spark.rstudio.com/khines/maps/" target="_blank" >rstudio </a>. 
+</p>
+
+<p>
+It has fairly simple functionality and interactivity, but shows off the basic moving parts of Shiny apps. You can input a location string for the place that you want a map of. Generally, these location strings work best in the form of "City, State", but ultimately the string is sent to the GoogleMaps API, so anything you can search in GoogleMaps can be pulled into this app. You can also choose a zoom level - one of the 20 levels that are allowed by GoogleMaps. I generally find that these map tiles from Statmen tend to look the coolest if there are significant water features to be visualized, so a zoom level that captures a large geographic region looks best.
+</p>
+
+</p>
+ If you want to focus on a specific neighborhood or address, you can use the latitude and longitude coordinates. To find them, you can look around at <a href="http://maps.google.com" target="_blank">GoogleMaps </a> for the loction of interest, then if you right click and select "Whats Here", the lat/lon coordinates will appear in the search bar. You can then put them into the Shiny app and adjust the zoom level to pull up an awesome visualization of your neighborhood. NOTE: Due to some real lazy effort on my part, in order to use the lat/long input, the location string MUST read "Richmond, VA"; this was a silly choice on my part, I'll fix it later. If you like what you see, you can click Download Map to get a pdf. 
+</p>
+<p>
+The <a href="http://rstudio.github.io/shiny/tutorial/"> tutorials</a> and documentation for Shiny are some of the best in the R community, so I highly recommend you walk through the first few of them. You'll have a strong grasp on the basic concepts in under a half an hour. The high level idea is to write a UI script which defines the components with which the user interacts and a Server script which describes what should be done with user input. The server script is where most of the calls to intersting R functions will go which will act upon user-supplied variables.
+</p>
+
+<p>
+For example, the script running this app works something like this. The user supplies a location string which gets wrapped up in a variable called <em>input </em>. Then the server script uses that user variable and makes appropriate calls to <strong>ggmap </strong> functions such as,
+</p>
+<pre>
+<code>
+MapCenter<-geocode(input$location) 
+map<-get_map(c(lon=MapCenter$lon,lat=MapCenter$lat),maptype='watercolor',source='stamen')
+print(gmap(map))
+</code>
+</pre>
+<p>
+This plot is then sent back to the UI and displayed in the browser in the appropriate place. 
+</p>
+
+<p>
+Finally, I'm excited about encorporting Shiny apps into interactive documents and presentations. For example, if I am using html slide shows (made easy with the <strong><a href="http://http://slidify.org/">slidify</a></strong> package), or browser-based papers, reports, or blog posts, then I can easily include a shiny app using an <strong>iframe </strong> tag which points to wherever the app is hosted. For example,
+</p>
+
+<iframe src="http://spark.rstudio.com/khines/maps" height=450 width=900 align=middle></iframe>
+
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p>Thanks for taking  a look</p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
