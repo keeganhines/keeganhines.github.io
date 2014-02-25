@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Keegan Hines : github home page" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="../stylesheets/stylesheet.css">
+
+    <title>Identifiability</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/keeganhines">View on GitHub</a>
+
+          <h1 id="project_title">Keegan Hines</h1>
+
+
+        
+	<ul class="nav">
+	  <li ><a href="../index.html"> Home </a></li>
+	 <li > <a href="../academics/index.html"> Academics </a></li>
+	 <li ><a href="../blog/index.html"> Blog </a> </li>
+	</ul>
+    </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h3>
+
+<h1>Identifiability paper is out</h1>
+
+<p>
+Our paper about  <a href="http://jgp.rupress.org/content/143/3/401.abstract">parameter identifiability </a> is out in the March issue of JGP. Here's the basic summary - you might make some measurement in order to learn something about the world, but in many cases the thing you measured simply cannot tell you anything useful about what you were interested in. Slightly more detailed explanation below. 
+</p>
+
+<p>
+In biophysics research, we commonly try to build accurate mathematical models of biological systems. These models are inevitably composed of parameter which represent biophysical quantities of interest, such as a transition rate, free energy, or binding affinity. Those biophysical quantities cannot be measure directly, but must be inferred indirectly by fitting some mechanistic model to something that we <emph>can</emph> measure. One would hope that get good agreement between the model and the measured data would yield an accurate estimate of the model parameters. In this paper, we point out that this might not be so, as the parameters may not be <emph>identifiable</emph>. In this situation, many values of the parameters (possibly infinitely many) would produce identically good fits to the measured data. Therefore, performing the measurement has provided no useful information with respect to accurately estimating the parameter values.
+</p>
+
+<p>
+Here's a quick example. If we're interested in receptor proteins (and other ligand binding systems), we might measure a binding curve. This curve measures, as a function of ligand concentration, the fractional occupancy of the binding sites on the receptor. Can we use the binding curve to estimate the binding affinities of the sites on the receptor? 
+</p>
+
+<p>
+Imagine we have a receptor with two binding sites, each of which might have different affinity. Our model then imagines that the ligands can bind to one of the two sites and the probability of binding depends on the affinities of each sites and on the concentration of ligand. In this case, the two affinities are free parameters which we hope to estimate by fitting our model to a measured binding curve. The interactive below allows us to visualize the problem of parameter non-identifiability. 
+</p>
+
+<iframe src="http://spark.rstudio.com/khines/ident/"
+	style="max-width:100%"
+	width="100%"
+	height="750px"
+	scrolling="no"
+	frameborder="no"
+	seamless="seamless"
+></iframe>
+
+<p>
+The model has two parameters, the affinities of each site, here called K1 and K2. We can use the sliders to vary the values of these parameters in our binding model. One the left, the smooth curve is the predicted binding curve that we would expect to see for the given values of the parameters. The circles in this plot are some imaginary data points that we might have collected in order to measure a real binding curve. Since this model has only two parameters, we can explore the whole parameter space fairly easily. The plot on the right shows the error surface between the data points and the predicted binding curve. This means that for every point in this K1-K2 parameter space, we can calculate the predicted binding curve, and then compare it to the "real" data and calculate the total error between the two. This error is then represented by the color contours where the lowest error (best fit to the data) is shown as the lightest colors. So mess around with the sliders and see that the best fit between the smooth curve and the data points occurs at the region of the parameter space with the lowest error.
+</p>
+
+<p>
+Here's a few things I want you to try as you explore this model. Notice that the region of lowest error (the region that provides excellent fits to the data) is very small. Notice also that the noise in the data is very small to start. Go ahead and change the Data Noise to something like 0.03, which is just 3% noise, still very small compared to actual variability seen in experiments. Look at what happens to the error surface. The region of lowest error (lightest color) not only gets much bigger, but gets very curved.  This region is the set of all parameter values that provide comparably excellent fits to the data.  These two parameters can systematically compensate for one another to produce good fits to the data over a wide range of the parameter space. Go ahead and explore the values of K1 and K2 that are in this low-error region and verify that all the expected binding curves are well within the noise of this data. So given this slightly noisy data, we could estimate that K1 and K2 are equal to each other (and both 200), or that K1 is 100 and K2 is 1200. These parameter sets imply vastly different things regarding biophysical mechanisms, yet they yield indistinguishable binding curves. This is the basic idea about parameter non-identifiability. Given the inevitably noisy binding curves, we were unable to learn anything useful about the system we were trying to study.  
+</p>
+
+<p>
+This example just scratches the surface of what is discussed in the paper. It surprised us that parameter non-identifiability can be so pervasive even in extremely simple biophysical systems, like the two-parameter model we just looked at. It is therefore vital to be able to establish whether or not your system is identifiable and the focus of most of the paper is on efficient methods for determining this. 
+</p>
+
+      </section>
+    </div>
+
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p>Thanks for taking  a look</p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
