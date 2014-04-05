@@ -386,6 +386,7 @@ color: #0090ff;
 
 #footer_wrap {
   background: #212121;
+  clear:both;
 }
 
 
@@ -442,4 +443,26 @@ Small Device Styles
     font-size: 11px;
   }
 
+}
+
+.pub_txt{
+float:left;
+width:60%;
+}
+
+.pub_img{
+float:right;
+}
+
+.contain{
+width:100%;
+position:relative
+}
+
+.contain:hover{
+background:#C5C5C5;
+}
+
+.blog_item:hover{
+background:#C5C5C5;
 }
