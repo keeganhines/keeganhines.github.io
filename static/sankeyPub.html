@@ -1,0 +1,95 @@
+<head>
+<script type="text/javascript"
+  src="https://www.google.com/jsapi?autoload={'modules':[{'name':'visualization','version':'1.1','packages':['sankey']}]}">
+</script>
+
+<div id="sankey_basic" style="width: 900px; height: 300px;"></div>
+
+<script type="text/javascript">
+google.setOnLoadCallback(drawChart);
+
+   function drawChart() {
+    var data = new google.visualization.DataTable();
+    data.addColumn('string', 'From');
+    data.addColumn('string', 'To');
+    data.addColumn('number', 'Weight');
+    data.addRows([
+     
+       [ 'Poldrack RA', 'J Neurosci', 1 ],
+       [ 'Golding NL', 'Front Neural Circuits', 1 ],
+       [ 'Pierce-Shimomura JT', 'Proc Natl Acad Sci U S A', 1 ],
+       [ 'Colgin LL', 'Neuron', 2 ],
+       [ 'Aldrich RW', 'J Gen Physiol', 4 ],
+       [ 'Johnston D', 'Brain Res Bull', 1 ],
+       [ 'Johnston D', 'J Neurophysiol', 4 ],
+       [ 'Aldrich RW', 'Proc Natl Acad Sci U S A', 4 ],
+       [ 'Monfils MH', 'Front Behav Neurosci', 1 ],
+       [ 'Brager DH', 'J Neurosci', 1 ],
+       [ 'Monfils MH', 'Anim Cogn', 1 ],
+       [ 'Johnston D', 'Nat Neurosci', 2 ],
+       [ 'Nishiyama H', 'J Neurophysiol', 1 ],
+       [ 'Mauk MD', 'J Neurosci', 4 ],
+       [ 'Johnston D', 'J Neurosci', 7 ],
+       [ 'Fiete IR', 'Nat Neurosci', 1 ],
+       [ 'Raab-Graham KF', 'J Cell Biol', 1 ],
+       [ 'Harris KM', 'J Comp Neurol', 1 ],
+       [ 'Golding NL', 'Neuron', 1 ],
+       [ 'Raab-Graham KF', 'Neuropharmacology', 1 ],
+       [ 'Colgin LL', 'Annu Rev Neurosci', 1 ],
+       [ 'Nishiyama H', 'J Neurosci', 2 ],
+       [ 'Harris KM', 'PLoS One', 1 ],
+       [ 'Pierce-Shimomura JT', 'Biol Psychiatry', 1 ],
+       [ 'Morikawa H', 'Neuron', 1 ],
+       [ 'Mauk MD', 'Neural Netw', 1 ],
+       [ 'Harris KM', 'Methods Mol Biol', 1 ],
+       [ 'Johnston D', 'J Physiol', 2 ],
+       [ 'Koester HJ', 'J Vis Exp', 1 ],
+       [ 'Johnston D', 'Neuron', 4 ],
+       [ 'Maddox WT', 'Learn Mem', 1 ],
+       [ 'Golding NL', 'J Physiol', 1 ],
+       [ 'Johnston D', 'Cell Rep', 1 ],
+       [ 'Harris KM', 'Neuroscience', 1 ],
+       [ 'Preston AR', 'Front Hum Neurosci', 1 ],
+       [ 'Preston AR', 'Cereb Cortex', 1 ],
+       [ 'Harris KM', 'Curr Opin Neurobiol', 2 ],
+       [ 'Fiete I', 'Nat Neurosci', 1 ],
+       [ 'Harris KM', 'Hippocampus', 2 ],
+       [ 'Koester HJ', 'J Neurophysiol', 2 ],
+       [ 'Koester HJ', 'Front Neural Circuits', 1 ],
+       [ 'Colgin LL', 'Curr Opin Neurobiol', 1 ],
+       [ 'Morikawa H', 'J Neurosci', 1 ],
+       [ 'Aldrich RW', 'J Biol Chem', 1 ],
+       [ 'Harris KM', 'Neuroinformatics', 1 ],
+       [ 'Harris KM', 'Eur J Neurosci', 1 ],
+       [ 'Preston AR', 'J Neurosci', 1 ],
+       [ 'Aldrich RW', 'Nature', 1 ],
+       [ 'Mauk MD', 'J Neurophysiol', 2 ],
+       [ 'Fiete IR', 'Neuron', 1 ],
+       [ 'Chitwood RA', 'J Neurophysiol', 1 ],
+       [ 'Mauk MD', 'Learn Mem', 1 ],
+       [ 'Harris KM', 'Annu Rev Neurosci', 1 ],
+       [ 'Johnston D', 'Pflugers Arch', 1 ],
+    
+    
+    ]);
+    
+    // Set chart options
+    var options = {
+      width: 1200,
+      height: 1000,
+      sankey: {
+        node: { label: { fontName: 'Times-Roman',
+                         fontSize: 14,
+                         
+                         
+                         } } },
+
+    };
+
+    // Instantiate and draw our chart, passing in some options.
+    var chart = new google.visualization.Sankey(document.getElementById('sankey_basic'));
+    chart.draw(data, options);
+   }
+</script>
+</head>
+</html>
