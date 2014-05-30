@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Keegan Hines : github home page" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="../stylesheets/stylesheet.css">
+
+    <title>Sankey</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/keeganhines">View on GitHub</a>
+
+          <h1 id="project_title">Keegan Hines</h1>
+
+
+        
+	<ul class="nav">
+	  <li ><a href="../index.html"> Home </a></li>
+	 <li > <a href="../academics/index.html"> Academics </a></li>
+	 <li ><a href="../blog/index.html"> Blog </a> </li>
+	</ul>
+    </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h3>
+
+<h1>Sankey</h1>
+
+<p>
+This Sankey plot visualizes the publications from my department (the Center for Learning and Memory at UT) in the past couple years in terms of who the PI was and journals they published in. The thickness of the links corresponds to the number of papers.
+</p>
+
+<iframe src="../static/sankeyPub.html"
+	style="max-width:100%"
+	width="100%"
+	height="850px"
+	scrolling="no"
+	frameborder="no"
+	seamless="seamless"
+></iframe>
+
+Interactive Sankey plot thanks to  <a src='https://developers.google.com/chart/interactive/docs/gallery/sankey' target='_blank'>d3 and GoogleCharts</a>.  Here's some python code for pulling down this information from the PubMed API.
+
+<pre>
+import urllib2
+import xml.etree.ElementTree as ET
+
+class Link:
+    def __init__(self,auth,jour):
+        self.author=str(auth)
+        self.journal=str(jour)
+        self.count=1
+        self.name= str(auth)+str(jour)
+        
+    def __str__(self):
+        return("[ "+ "'"+self.author+ "'" + ", " + "'"+self.journal +"'"+ ", " + str(self.count)+ " ],")
+       
+        
+    def addOne(self):
+        self.count=self.count+1
+        
+query=urllib2.urlopen('http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term=university+of+texas+at+austin+center+for+learning+and+memory&RetMax=100').read()
+queryTree=ET.fromstring(query)
+IDlist=queryTree[3]
+
+LinkList=[]
+for ID in IDlist:
+    w=urllib2.urlopen('http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id='+str(ID.text)).read()
+    root=ET.fromstring(w)
+    author=root[0][5].text
+    journal=root[0][3].text
+
+    if str(author)+str(journal) in [item.name for item in LinkList]:
+        l= [item.name for item in LinkList].index(str(author)+str(journal))
+        LinkList[l].addOne()
+    else:
+        LinkList.append(Link(author,journal))
+
+    
+  
+</pre>  
+      </section>
+    </div>
+
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p>Thanks for taking  a look</p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
