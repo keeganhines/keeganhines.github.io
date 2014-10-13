@@ -454,6 +454,10 @@ width:60%;
 float:right;
 }
 
+.nav a:hover {
+  background:#E9E9E9;
+}
+
 .contain{
 width:100%;
 position:relative
