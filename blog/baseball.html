@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Keegan Hines : github home page" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="../stylesheets/stylesheet.css">
+
+    <title>Baseball Dynasties</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/keeganhines">View on GitHub</a>
+
+          <h1 id="project_title">Keegan Hines</h1>
+
+
+        
+	<ul class="nav">
+	  <li ><a href="../index.html"> Home </a></li>
+	 <li > <a href="../academics/index.html"> Academics </a></li>
+	 <li ><a href="../blog/index.html"> Blog </a> </li>
+	</ul>
+    </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h3>
+
+<h1>Baseball Dynasties</h1>
+
+<p>
+I really like visualizations like <a href='http://en.wikipedia.org/wiki/Chelsea_F.C.#mediaviewer/File:ChelseaFC_League_Performance.svg' target="_blank">this</a> which accompany the wikipedia pages for most Premeier League teams. The idea is to plot the year-end ranking of a team over its entire history. It hit me that I've never seen such a thing for any American sports, so I wanted to give it a try and also make use of <a href='https://github.com/mbostock/d3/wiki/Gallery' target='_blank'>d3</a> for some interactive graphics.
+</p>
+
+<p>
+I'm going to use baseball teams, since it's playoff season. I've grabbed data from <a href='http://www.baseball-reference.com/leagues/MLB/2013-standings.shtml' target="_blank">BaseballReference.com</a> which provides lots of information about each team for each year, though we're only interested in the rankings. In this case, the rankings are due to overall win-loss percentage and not due (exclusively) to outcomes in the post-season. I've put together the results for each team with help from d3 and <a href='http://www.rcharts.io' target='_blank'>rCharts</a>.
+</p>
+
+<iframe src="../static/viz.html"
+	style="max-width:100%"
+	width="100%"
+	height="400px"
+	scrolling="no"
+	frameborder="no"
+	
+></iframe>
+
+For simplicity, I've just grabbed data since 1950, and I've subselected the teams that haven't changed names or moved markets in that time (so the Nats and the Marlins are out, for example). For the remaining teams, we can visualize their rank at the end of each year. With the legend at the top, you can double click on teams to select or deselect them. As expected, we can use this tool to reveal the fairly consistent high rankings for the Yankees and, well, the opposite for the Cubs. 
+
+<p> My python code for scraping the data from <a href='http://www.baseball-reference.com/leagues/MLB/2013-standings.shtml' target="_blank">BaseballReference.com</a>  is below. </p>
+<pre>
+import urllib2
+import lxml.html
+
+years=range(1950,2013)
+allRankings={}
+for yr in years:
+    s='http://www.baseball-reference.com/leagues/MLB/%s-standings.shtml'%yr
+    page = urllib2.urlopen(s).read()
+    doc=lxml.html.fromstring(page)
+    t=doc.cssselect('table')
+    t=t[len(t) - 1]
+    row=t[2]
+    
+    yr_rankings={}
+    count=1
+    for team in row.cssselect('a'):    
+        yr_rankings[team.get('title')]=count
+        count+=1    
+    allRankings[yr]=yr_rankings
+  
+</pre>
+
+      </section>
+    </div>
+
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p>Thanks for taking  a look</p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
