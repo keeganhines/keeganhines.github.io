@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Keegan Hines : github home page" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="../stylesheets/stylesheet.css">
+
+    <title>Rstudio, Docker, and DigitalOcean</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/keeganhines">View on GitHub</a>
+
+          <h1 id="project_title">Keegan Hines</h1>
+
+
+        
+	<ul class="nav">
+	  <li ><a href="../index.html"> Home </a></li>
+	 <li > <a href="../academics/index.html"> Academics </a></li>
+	 <li ><a href="../blog/index.html"> Blog </a> </li>
+	</ul>
+    </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h3>
+
+<h1>Cloud hosting Rstudio with Docker and DigitalOcean</h1>
+
+<p>Here's a how-to for deploying Rstudio using Docker and hosting on DigitalOcean. It's a pretty painless process, but nonobvious if you've never used Docker before, so I thought I'd write everything down for my own sake. By way of a bit of background,  <a href='https://www.digitalocean.com/' target='_blank'>DigitalOcean</a> is cloud hosting service where you can deploy web apps for a less than a cent an hour. <a href='https://www.docker.com/' target='_blank'>Docker</a> is an increasingly popular way of packaging up all the code, libraries, and dependencies that you need for some particular purpose to make things portable across systems. We're going to use these to cloud-host Rstudio.  </p>
+
+<p>
+First, we'll make an account at <a href='https://www.digitalocean.com/' target='_blank'>DigitalOcean</a>. Setting up an account is simple, just click along and follow the instructions. You'll need to put a few bucks of credit into your account at first, or you can get some free credit if you're a <a href='https://education.github.com/pack' target='_blank'>student</a>. Then we'll need to set up a 'droplet', which is just a fixed set of computing resources that you're essentially renting from DigitalOcean. At this point, we'll have to choose how much computing power we intend to need. </p>
+
+<img src='./static/docker/ss1.png' width=100%>
+
+<p>
+The cheapest option gets you half a GB of RAM and will cost you $.007/hour. Something comparable to a laptop will cost you about a dime per hour. If you really want to do some number crunching, you can get 64GB of RAM and 20 cores for less than a dollar an hour. So you could spin up a powerful droplet, do some pretty interesting datascience for a few hours, and then destroy the droplet, all for only a few bucks.  Seems like you could play that game for a long time before you came anywhere near the cost of high-performance personal computer.
+</p>
+
+<p>
+After you've picked one (presumably the cheap one like I did), pick which flavor of Linux is your favorite. Then go over to the Applications tab and make sure you select Docker.
+</p>
+<img src='./static/docker/ss2.png' width=100%>
+
+<p>
+There's more things to configure, but that's all you need for now. Create the droplet and wait about one minute for everything to get set up. Once things are running, click on the Access tab and go to Console Access. By this time, you should have gotten an email from DigitalOcean with a temporary password for this droplet. In the console, login with 'root' as the user and whatever password they sent you (which you will then have to promptly change).
+</p>
+
+<p>
+Now onto Docker. At this point, you'd really benefit from taking 2 minutes and checking out this quick <a  href='https://www.docker.com/tryit/' target='_blank'>Docker tutorial</a>. This will give a basic understanding the concepts and commands underlying Docker, and they explain it better than I could. The principle idea is that we're going to obtain and then use 'Docker images' and then run various commands atop the context of a Docker image, which is a container some reusable code.
+</p>
+
+<p>
+At this point, we could begin to install R and all the dependecies and save our setup to an image with <code>Docker commit</code>. But in the case of R and Rstudio, such stable images have already been made thanks to the awesome <a href='https://github.com/rocker-org/rocker' target='_blank'>Rocker Project</a> from <a href='https://twitter.com/eddelbuettel' target='_blank'>@eddelbuettel</a> and <a href='https://twitter.com/cboettig' target='_blank'>@cboettig</a>. These images (amongst many others) are hosted in the Docker Hub and we can pull them down easily for our use. So we'll use images from the Hub,
+</p>
+
+<pre> docker pull rocker/rstudio</pre>
+<p>
+This image will be pulled and all the dependencies will be in your droplet.	
+</p>
+
+<img src='./static/docker/ss3.png' width=100%>
+  
+<p>
+We're now going to use this image to deploy Rstudio Server.
+</p>
+
+<pre>docker run -d -p 8787:8787 rocker/rstudio </pre>
+<img src='./static/docker/ss4.png' width=100%>
+
+<p>
+This deploys Rstudio server on port 8787 and with the default username/password of rstudio/rstudio and returns a lengthy ID key for the container we created. Below the droplet console, you'll see the IP address of your droplet, for example <code>104.131.62.8</code>, so if you point a browser to <code>104.131.62.8:8787</code>, you can log into an Rstudio session.
+</p>
+
+<img src='./static/docker/ss5.png' width=100%>
+  
+<p>
+Since we're deploying Rstudio, we'll probably want to add some extra security with our own username and password. 
+</p>  
+  
+<pre>docker run -d -p 8787:8787 -e USERNAME=someusername -e PASSWORD=somepassword rocker/rstudio </pre>  
+  
+<p>
+And there we have, rather effortlessly, set up Rstudio Server so we can do our number crunching from a web brower. 
+</p>  
+
+      </section>
+    </div>
+
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p>Thanks for taking  a look</p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
