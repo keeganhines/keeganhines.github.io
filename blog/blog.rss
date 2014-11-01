@@ -15,5 +15,13 @@
   <pubDate>Fri, 31 Oct 2014 16:20:00 +0000</pubDate>
  </item>
  
+  <item>
+  <title>Baseball Dynasties</title>
+  <description>Using rCharts and interactive graphics to explore dynasties in the MLB.</description>
+  <link>http://keeganhines.github.io/blog/baseball.html</link>
+  <pubDate>12 Oct 2014 16:20:00 +0000</pubDate>
+ </item>
+ 
+ 
 </channel>
 </rss>
