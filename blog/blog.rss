@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+<channel>
+ <title>Keegan Hines' Blog</title>
+ <description>Various posts on whatever interests me lately in statistics and data science.</description>
+ <link>http://keeganhines.github.io/blog/index.html</link>
+ <lastBuildDate>Sat, 01 Nov 2014 00:01:00 +0000 </lastBuildDate>
+ <pubDate>Sat, 04 Jan 2014 16:20:00 +0000</pubDate>
+ 
+ 
+ <item>
+  <title>How-To: Cloud hosting Rstudio with Docker and DigitalOcean</title>
+  <description>A step-by-step guide to deploying Rstudio with help from Docker.</description>
+  <link>http://keeganhines.github.io/blog/docker.html</link>
+  <pubDate>Fri, 31 Oct 2014 16:20:00 +0000</pubDate>
+ </item>
+ 
+</channel>
+</rss>
