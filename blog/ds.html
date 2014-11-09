@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Keegan Hines : github home page" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="../stylesheets/stylesheet.css">
+
+    <title>Data Science from my iPad</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/keeganhines">View on GitHub</a>
+
+          <h1 id="project_title">Keegan Hines</h1>
+
+
+        
+	<ul class="nav">
+	  <li ><a href="../index.html"> Home </a></li>
+	 <li > <a href="../academics/index.html"> Academics </a></li>
+	 <li ><a href="../blog/index.html"> Blog </a> </li>
+	</ul>
+    </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h3>
+
+<h1>Data Science from my iPad</h1>
+
+<p>
+For the last couple weels, I've been interested  in methods for deploying analytics environments so that they can be accessed solely from a web browser. The reason for this could be that we allocate all the high performance computing and number crunching to a remote server, then we could access that server from any device with a browser. Therefore, we might never need to purchase a high performance computing machine again, we could do everything from a tablet (or phone even). Hence, the pithy title. Anyway, here's some of my favorite things.   
+</p>
+
+<h4>Rstudio Server and Docker</h4>
+<p>
+Rstudio Server is awesome way to set up an Rstudio environment in a web browser. But you may not have the savvy to set up the server-side backend and you may not have easy access to a persitent server. I've recently <a href='http://keeganhines.github.io/blog/docker.html' target='_blank'>described </a> how you can take advantage of Docker to quite painlessly deploy Rstudio using DigitalOcean for as little as a cent per hour. For the R crowd, this is an exciting possibility and you can get things up and running in minutes.
+</p>
+<h4>iPython Notebook with tmpnb</h4>
+<p>
+For the Python enthusiast, I'm sure you're familiar with the superbly cool iPython notebook. These are interactive development environments that can be run by anyone who has iPython and can be statically shared at <a href='http://nbviewer.ipython.org/' target='_blank'>nbviewer</a>. However, we might like to have a hosted version of iPython notebooks so that we (and our collaborators) can execute and interact with the code from any system. 
+</p>
+
+<p>
+<a href='https://tmpnb.org' target='_blank'>tmpnb</a>  provides exactly this, and is 100% free (as in beer). Again using Docker, these iPython notebooks are served by Rackspace and require absolutely no effort on our part in order to use them. We get a 'temporary' iPython notebook assigned to a randomized user and session. We can then edit this notebook and share the permalink with others so they can execute and modify our code, all the from the browser, no Python required on our end. 
+</p>
+
+<p>
+I'm a big fan of how immediate and effortless it is to use tmpnb. This work was recently featured by <a href='http://www.nature.com/news/interactive-notebooks-sharing-the-code-1.16261' target='_blank'>Nature</a> to highlight the importance of these kinds of tools for reproducible science.
+</p>
+
+<h4>iPython Notebook with Wakari</h4>
+<p>
+A potential problem with tmpnb is, well, the temporariness. It's not obvious to me how long a particlar iPython notebook session will persist, and I'm not able to gather together multiple notebooks under a username. A very similar idea as tmpnb comes from the folks at <a href='http://continuum.io/' target='_blank'>Continuum</a>  with their product <a href='http://continuum.io/wakari' target='_blank'>Wakari</a>. Again, the idea is to host iPython notebooks remotely so that they can be shared and used from anywhere. With Wakari, we can create an account in order to store all of the notebooks we're interested in as well as their dependencies. The base-level Wakari is also free (as in beer), and if we need more memory we can pay a nominal fee for the use of enhanced server resources. This provides another advantage over tmpnb, giving us the option to access more computation if we're willing to pay for it.
+</p>
+
+<h4>Summary</h4>
+<p>
+All in all, these tools provide exciting possibilities for enhancing a data science workflow and facilitating collaboration. And even for the services which aren't free, the cost incurred over a year or two will pale in comparison to the cost of purchasing a high performance machine. Now I just need to get an iPad...  
+</p>
+
+      </section>
+    </div>
+
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p>Thanks for taking  a look</p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
