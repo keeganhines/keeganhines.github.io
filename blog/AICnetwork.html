@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Keegan Hines : github home page" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="../stylesheets/stylesheet.css">
+	<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-50962617-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+    <title>Austin Improv Network</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/keeganhines">View on GitHub</a>
+
+          <h1 id="project_title">Keegan Hines</h1>
+
+
+        
+	<ul class="nav">
+	  <li ><a href="../index.html"> Home </a></li>
+	 <li > <a href="../academics/index.html"> Academics </a></li>
+	 <li ><a href="../blog/index.html"> Blog </a> </li>
+	</ul>
+    </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h3>
+
+<h1>Austin Improv Community Network</h1>
+
+
+<p>
+(Spoiler: just click <a href ='./static/AICnet.html' target='_blank'>on this</a>) 
+</p>
+
+<p>
+Networks are a pervasive notion even in our everday lives. As examples, consider the network of all air travel across the world, or your favorite online social network. These common examples highlight some of the basic components of networks and begin to hint at why they're interesting to study. Networks are composed of nodes (such as airports or social media users) connected by edges (such as flight paths or social media reltionships). That's really it. Yet that simple framework can be used to think about many kinds of phenomena. Below, I'm going to construct a very simple one (a social network) which allows us to visualize relationships and groupings among people.  
+</p>
+
+<p>
+We're going to take a look at the community of improvisers in Austin, TX.   Based on the performances from each improviser, we'll construct a visual represetation of the Austin Improv Network. Luckily, nearly all the performances, troupes, and shows in the Austin improv community have been fantastically documented in the <a href='http://wiki.austinimprov.com/wiki/Main_Page' target='_blank'>Austin Improv Wiki</a>, so it'll be very little work for us to extract the relevant information about each performer and to build this network. 
+</p>
+
+<p>
+So how exactly can I construct a network out of improv troupes or shows? Let's walk through a real simple example. First, we'll pick a troupe to start with - let's go with <a href='http://www.pgraph.com/' target='_blank'>Pgraph</a>. Pgraph has four members (Kaci, Valerie, Roy, and Kareem) and these will be the first nodes in our network. So below we have a network with four nodes in it (hover over the nodes so you can see who is who; drag em around if you want, they won't mind).
+</p>
+
+<iframe src="./static/exampleNetwork_1.html"
+	style="max-width:100%"
+	width="100%"
+	height="400px"
+	scrolling="no"
+	frameborder="yes"
+	
+></iframe>
+
+<p>
+Now how are we going to connect the nodes of our Austin Improv Network? Well I've decided that two nodes (improvisers) will be connected by an edge if they appear in a troupe together. So with our first four nodes, they all appear in a troupe together (Pgraph), so there will be an edge between each of them. 
+</p>
+
+
+
+
+
+<iframe src="./static/exampleNetwork_2.html"
+	style="max-width:100%"
+	width="100%"
+	height="400px"
+	scrolling="no"
+	frameborder="yes"
+	
+></iframe>
+
+<p>Now we can move on to another troupe and add nodes and edges in this same manner. So if we look at <a href='http://wiki.austinimprov.com/wiki/Squirrel_Buddies' target='_blank'>Squirrel Buddies</a>, we'll see that we need to add another node for Jon. And then we would put an edge between Roy and Jon because they're both in Squirrel Buddies. Similarly for <a href='http://wiki.austinimprov.com/wiki/The_Amazon_and_the_Milksop' target='_blank'>The Amazon and the Milksop</a>, we'll add Curtis to the network and put an edge between Kaci and Curtis.  </p>
+
+
+<iframe src="./static/exampleNetwork_4.html"
+	style="max-width:100%"
+	width="100%"
+	height="400px"
+	scrolling="no"
+	frameborder="yes"
+	
+></iframe>
+<p>
+I've scraped the <a href='http://wiki.austinimprov.com/wiki/List_of_Austin_Improv_Troupes' target='_blank' >Austin Improv Wiki</a> and extracted this information for every troupe and every improviser. In the same way I just described, I've put together the network of all improvisers with connections meaning that two improvisers are in the same troupe at least once. That network is shown below. It's quite big and complex, so you should view it <a href='./static/AICnet.html' target='_blank'>in a new page</a> instead of just embedded in this page.
+</p>
+
+
+<iframe src="./static/AICnet.html"
+	style="max-width:100%"
+	width="100%"
+	height="400px"
+	scrolling="no"
+	frameborder="yes"
+	
+></iframe>
+
+
+<p>
+To visualize these networks, I'm using the awesome javascript library <a href='https://github.com/anvaka/VivaGraphJS' target='_blank'>VivaGraph</a> and a common layout technique called 'force-directed layout'. The strategy is to pretend that the nodes are repelled by each other yet are chained to one another by their edges. As the nodes move around, densely connected subsets of the network will remain near each other, while unconnected parts of the network will be highly separated. With this type of layout, we can see lots of cool structure and complexity in this network. 
+</p>
+
+<p>
+You might be wondering why the nodes are different colors and what that means. With any network (and this one especially), there are often subsets or clusters of nodes which are more highly connected amongst themselves than to the rest of the network. Because of this, we can imagine that the whole network is actually composed of various communities that are all connected together. We don't know what these communities are, but from the edges we can use a community detection algorithm to calculate which communities exist and their memberships.
+</p>
+<p>
+The colors of the nodes in the improv network correspond to which community each node belongs to. We can see there are several large communities and a bunch of smaller communities. If we explore the nodes and the communities, we find that the detected communities have a slight correspondence to the various improv theaters in Austin (from which people are more likely to form troupes). There are lots of notable exceptions however, especially with highly connected nodes, who are more likely to form troupes with people from all over the network.  
+</p>
+
+<p>
+From this network information, we could start to ask questions like who is the most higly connected? Who is connected to the most 'important' people? Who acts as a 'bridge' between communities? There's lots of cool methods from Network Theory that allow to calculate these kinds of notions from this network data. I'll get around to that another day...  
+</p>
+
+<p>
+I've also done this same thing with improvisers that co-occur in <a href='http://wiki.austinimprov.com/wiki/List_of_Austin_Improv_Shows'  target='_blank'>mainstage shows</a>, and <a href='./static/AIC_shows_network.html' target='_blank'>this network</a> is much more densely interconnected. A compelling visualization of the fruitful overlap and collaboration in the Austin Improv Community!
+</p>
+
+<p>
+In case you're into this kind of thing, here is the R code I used for scraping the Austin Improv Wiki. This is the first time I've tried using R for web scraping, and thanks to the rvest package it was pretty painless.
+</p>
+
+<pre>
+# Scraping data from AIC Wiki and building a network
+library(rvest)
+troupes_page<-html('http://wiki.austinimprov.com/wiki/List_of_Austin_Improv_Troupes')
+
+troupes_list<-troupes_page %>% html_nodes('.DPLTest:nth-child(5) li') %>% html_text() %>% unique()
+
+nodes<-c()
+edge_list<-list()
+
+for (troupe in troupes_list){
+	print(troupe)
+	
+	# parse special characters and format URL
+	troupe_string<-gsub(' ','_',troupe)
+	troupe_string<-gsub('\\?','%3F',troupe_string)
+	troupe_string<-gsub('&','%26',troupe_string)
+						     
+	# fetch the page for each troupe and try to extract the cast					     
+	troupe_page<-html(paste('http://wiki.austinimprov.com/wiki/',troupe_string,sep=''))			
+	try(
+	cast<-troupe_page %>% html_nodes('.plainlist a') %>% html_text
+	)
+	
+	if(length(cast)>1){
+	# update node list
+	nodes<-unique(c(nodes,cast))
+	
+	# update edge_list
+	all_pairs<-combn(cast,2)
+	for (i in 1:ncol(all_pairs)){
+		possible_names<-c(paste(all_pairs[,i],collapse=' & '),   
+				  paste(rev(all_pairs[,i]),collapse=' & ')
+				  )
+		
+		if (any(possible_names %in% names(edge_list) )){
+			
+			edge_name<- possible_names[possible_names %in% names(edge_list)]
+			   
+			edge_list[edge_name]=(edge_list[edge_name][[1]]+1)
+			
+		} else{
+			edge_list[paste(all_pairs[,i],collapse=' & ')]=1
+		}
+	}	
+}	
+}
+
+</pre>
+
+
+      </section>
+    </div>
+
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p>Thanks for taking  a look</p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
