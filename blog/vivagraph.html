@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Keegan Hines : github home page" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="../stylesheets/stylesheet.css">
+	<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-50962617-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+    <title>vivagRaph</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/keeganhines">View on GitHub</a>
+
+          <h1 id="project_title">Keegan Hines</h1>
+
+
+        
+	<ul class="nav">
+	  <li ><a href="../index.html"> Home </a></li>
+	 <li > <a href="../academics/index.html"> Academics </a></li>
+	 <li ><a href="../blog/index.html"> Blog </a> </li>
+	</ul>
+    </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h3>
+
+<h1>vivagRaph: an R package for interactive network visualization</h1>
+
+<p>
+In a recent post, I explored the interconnectivity of the <a href='http://keeganhines.github.io/blog/AICnetwork.html' target='_blank'>Austin Improv Network</a>. Using the rvest package, it was quite easy to scrape the required information from the Austin Improv Wiki, and the culmination of this idea was this swirling, interactive <a href='http://keeganhines.github.io/blog/static/AICnet.html' target='_blank'>network visualization</a>. While the data collection and manipulation was done in R, I turned to the javascript library <a href='https://github.com/anvaka/VivaGraphJS' target='_blank'>VivaGraph</a> to make the interactive visualization. This library is great, but obviously it requires some comfort with javascript. To bridge this gap between R users and the VivaGraph library, I have developed the R package <a href='https://github.com/keeganhines/vivagRaph' target='_blank'>vivagRaph</a>. 
+</p>
+
+<p>
+  With the vivagRaph package, typical R objects can be used to automatically create the desired javascript visualization. As is shown below, the user can simply pass a few dataframes into the function vivagRaph(), and the required javascript objects and html are generated on the fly.  
+</p>
+
+<pre>
+devtools::install_github('keeganhines/vivagRaph')
+library(vivagRaph)
+  
+Nodes = data.frame(nodeName=c('Homer','Bart','Lisa','Milhouse','Lenny'), group=c(1,1,1,2,3))
+Edges = data.frame(source=c(0,1,0,1,0),target=c(1,2,2,3,4))
+vivagRaph(nodes=Nodes,edges=Edges)
+</pre>
+
+<iframe src="./static/simpsonsNetwork.html"
+	style="max-width:100%"
+	width="100%"
+	height="400px"
+	scrolling="no"
+	frameborder="yes"
+	
+></iframe>
+
+      </section>
+    </div>
+
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p>Thanks for taking  a look</p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
