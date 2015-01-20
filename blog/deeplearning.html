@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Keegan Hines : github home page" />
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="../stylesheets/stylesheet.css">
+	<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-50962617-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+    <title>Plankton and Deep Learning</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+<div id="header_wrap" class="outer">
+        <header class="inner">
+	  <ul class='nav' >
+	   
+          
+	  <li><a href='mailto:keegan.hines@gmail.com' target='_blank'><i class="fa fa-envelope"></i></a></li>
+	  <li><a href='https://twitter.com/keeghin' target='_blank'><i class="fa fa-twitter"></i></a></li>
+	  <li><a href='https://www.linkedin.com/in/keeganhines' target='_blank'><i class="fa fa-linkedin"></i></a></li>
+	  <li><a href='http://stackoverflow.com/users/4153882/keegan' target='_blank'><i class="fa fa-stack-overflow"></i></a></li>
+	  <li><a href='https://github.com/keeganhines' target='_blank'><i class="fa fa-github"></i></a></li>
+	  </ul>
+	  <div >
+          <h1 id="project_title" style='text-align:center;'>Keegan Hines</h1>
+	  </div>
+
+        
+	<ul class="nav">
+	<li ><a href="../index.html"> Home </a></li>
+	 <li > <a href="../academics/index.html"> Academics </a></li>
+	 <li ><a href="./index.html"> Blog </a> </li>
+	</ul>
+    </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h3>
+
+<h1>On Plankton and Deep Learning</h1>
+
+<p>
+The inaugural <a href='http://www.datasciencebowl.com/' target='_blank'>Data Science Bowl</a> is a new Kaggle competition sponsored by Booz Allen Hamilton. Like many of the data science competitions at Kaggle, this one comes with a cash prize for the winner(s). Unlike many Kaggle competitions, this cash prize is particularly large (in excess of $100K) and presumably that's where B.A.H. comes in. In addition, this competition boasts a flavor of "data science for the good of the planet" since the data in question come from an oceanography survey from the Oregon State University Marine Science Center. I tried my hand at this competition, not hoping to win the big bucks, but more as an excuse to gain some mastery of Deep Learning and image processing.  
+</p>
+
+<p>
+  As I mentioned, the data at hand come from an oceanography effort at OSU Marine Science Center aimed at quantifying and tracking the abundance of various species of plankton. As far as I understand it (and this is probably pretty wrong), they drove a boat and with an array of underwater cameras and took pictures of everything. The result is a huge amount of image data containing hundreds of different species of plankton. Below are some example images of a few species of plankton.
+</p>
+
+<img src='./static/plankton.png' width=500px>
+
+<p>
+  Some gnarly looking beasts if we're being honest. So while above we see four plankton species, in total there are over 100 different species. But most importantly, the total number of images that were captured in this expedition is huge: 50 million images totalling more than 80 terabytes of data. This is far too much data for humans to process and analyze. According to the website, "...the data collected over one day takes one year to manyally analyze!" So while it is great that the imaging technology exists to gather large amounts of data, that data is almost uselessly large unless we can come up with automated ways to analyze it.  The data science task is then one of image classification: can we come up with an algorithm that can process images of these little beasts and correctly classify their species? And can this algorithm do at least as well as a typical human who receives a little training?
+</p>
+
+<p>
+Image classification can be attacked from a number of angles, and the folks at Booz and Kaggle wrote up a really nice <a href='https://www.kaggle.com/c/datasciencebowl/details/tutorial' target='_blank'>tutorial</a> on getting started with image processing. This nice walk-through describes some simple statistical models we might build out of some simple features we could extract from the images. But deep learning is what all the cool kids are talking about, and I knew this what the best-of-the-best were going to be throwing at this competition, so I figured I might as well gain some experience in this area. 
+</p>
+
+<p>
+Disclaimer - I have no background in image processing. I come from a world of Bayesian networks, latent variable models, time series analysis and so on. While I've discovered that there's been success in bringing Bayesian methods to image problems (like Gibbs sampling <a href='http://people.cs.missouri.edu/~chengji/supervised_learning/boltzmann_machine.pdf' target='_blank'>RBMs</a>), I've just simply never put much thought in to the problem of modeling the statistical properties of natural images. But I was able to get up to speed pretty quickly thanks to the <a href='http://deeplearning.net/tutorial/' target='_blank'>deep learning tutorials</a>. These tutorials do a nice job of building upon basic knowledge of statistical models and simple neural networks to generalize how such things are combined in layers. Additionally, these provide a nice introduction to <a href='http://deeplearning.net/software/theano/' target='_blank'>Theano</a>, a Python library that allows one to easily compile abstracted mathematical relationships into efficient CPU or GPU implementations. 
+</p>
+
+<p>
+In the case of image classification, I'd say the most important new idea I encountered is that of Convolutional Neural Networks. I'll not belabor a detailed explanation since there's a nice one <a href='http://deeplearning.net/tutorial/lenet.html#lenet' target='_blank'>here</a>, but I just want to summarize the basic idea since it seems to agree well with general intuition. With neural networks, we have some input of N dimensions and we want to find some N-dimensional filter weights that describe how to the input is related to the output, or to the next layer in a deep neural network. However, in many natural signals (including images) we have a great deal of prior information about those filters which will help us out greatly. In particular, we know our signals likely have important correlation and structure. In the case of images, this means that a given pixel is probably pretty correlated with the pixels surrounding it, but probably not correlated with pixels far away. This leads to the idea of convulutional filters. Our filters are little square or rectangular patches that consider simultaneously only a small number of pixels which are all close to each other. This, as it turns out, is a really useful way to think about images and it captures many of important properties of natural scenes and objects. Additionally, when combined into layers, these convolutional filters gain us important things such as translation invariance, scale invariance, and rotation invariance. And this simple idea (which to me seems very intuitive) has led to huge leaps in state-of-the-art algorihtms for image processing. 
+</p>
+
+<p>
+  So back to the plankton. I used the convolutional neural networks just described in order to classify each of the plankton images into one of ~100 different species categories. I'll post my code soon for all the details, but the architecture was roughly: a convolutional layer feeind into a pooling layer feeding into another convultional layer feeding into another pooling layer feeing into a fully-connected layer feeding into a linear output layer with ~100 output dimensions. (I gotta figure out how to draw those nice Krizhevsky diagrams...)  And I used Theano to take advantge of the modest GPU on my Macbook Pro, allowing all the training to be done in under and hour. On my first attempt, I did pretty well, considering I don't know what I'm doing (see Disclaimer above). Below is a screenshot of the Kaggle leaderboard after my first submission (just to keep me honest).  
+</p>
+
+<img src='./static/kaggle.png' width=800px>
+
+<p>
+This was early on in the competition, but I got in the top 5 and am amongst good company with folks who really know what they're doing with this stuff. I tweaked various parameters and architectures for a few weeks and bounced around in the top ten, but eventually, the seasoned pros got better at a much faster rate than I did. I found that I ran into a problem of overfitting which seems to be a basic problem in the field (lots of free parameters after all) and a great deal of skill and experience comes into play when you know how to address these issues. Most commonly, we can 'create' more data with various data augmentation methods (see <a href='http://www.cs.toronto.edu/~fritz/absps/imagenet.pdf' target='_blank'>here</a> and <a href='http://benanne.github.io/2014/04/05/galaxy-zoo.html' target='_blank'>here</a> for example discussions). This allows us to avoid overfitting and also to have enough data to train deeper networks and do much better overall. I never got around to messing much with data augementation, but that seems to be the key to really pushing things forward.
+</p>
+
+<p>
+At any rate, I learned a great deal about convolutional nets and deep learning, and have gained some insight into the promise and limitations of these methods. The <a href='https://www.kaggle.com/c/datasciencebowl/leaderboard' target='_blank'>leaders</a> in the Kaggle competition are doing really well, so I think it's really cool that this competition will certainly result in something invaluable for the researchers at OSU.
+</p>
+
+
+  
+      </section>
+    </div>
+
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p>Thanks for taking  a look</p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
