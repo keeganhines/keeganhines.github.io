@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Team Labormatch</title>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.3/d3.min.js"></script>
+    <style type="text/css">
+    			.axis path,
+			.axis line {
+				fill: none;
+				stroke: black;
+				shape-rendering: crispEdges;
+			}
+			
+			.axis text {
+				font-family: sans-serif;
+				font-size: 14px;
+			}
+                        .infobox p {
+                            text-align: center
+                        }
+                        .infobox {
+                            margin-left:auto;
+                            margin-right: auto;
+                            width:800px;
+                            background-color: #f1f1f1;
+                            padding: 5px;
+                            border-radius: 20px;
+                            box-shadow: 5px 5px 3px #888888;
+                        }
+    </style>
+</head>
+<body>
+    <div class='infobox' ">
+       <p> <strong>Team Labormatch</strong>: Keegan Hines, Yanan Sun, Ali Azari</p>
+       <p><strong>About</strong>: Data from the Bureau of Labor Statistics survey of State and Metro Area Employment, Hours, and Earnings. The monthly averages of jobs per industry per state are shown below.  </p>
+    </div>
+    
+    <script type="text/javascript">
+    //Width and height
+    var w = 800;
+    var h = 500;
+    
+    
+    var w2 = 400;
+    var h2 = 400;
+    
+    var padding = 105;
+    var margin = {left:40,right:60,top:10,bottom:50}
+    
+    var lookup = {
+        "Information": "Information",
+        "Retail Trade": "Retail",
+        "Manufacturing" : "Manufacturing",
+        "Government" : "Government",
+        "Financial Activities" : "Finance",
+        "Leisure and Hospitality": "Leisure",
+        "Education and Health Services" : "Education",
+        "Transportation and Utilities" : "Transportation",
+        "Construction" : "Construction",
+        "Mining and Logging": "Mining"        
+    }
+    
+    var names=['Manufacturing','Construction','Transportation','Retail','Education','Government', 'Information','Financial','Leisure','Mining']
+
+
+    var barColors =[]
+    var col = d3.scale.category10()
+    for (i=0;i<10;i++){barColors.push(col(i))}
+    console.log(barColors)
+
+    // define projection
+    var proj = d3.geo.albersUsa()
+                     .translate([w/2,h/2])
+                     .scale([900])
+    // path generator
+    var path = d3.geo.path().projection(proj);
+    
+    //var color = d3.scale.quantize()
+    //                    .range(['#9AC8E0','#5EA6CD','#3690C0','#266586','#163A4D']);
+  var stateColor = '#3690C0'
+    var color = ['#9AC8E0','#5EA6CD','#3690C0','#266586','#163A4D']
+   
+    var svg = d3.select("body")
+    .append("svg")
+    .attr("width", w)
+    .attr("height", h);
+    
+    //Load GeoJSON shape files
+    d3.json("us-states.json", function(json) {
+        
+            // load state employment data
+        d3.json("stateIndustryData.json", function(file){
+            var all_data = []
+            for (var j=0; j < file.length;j++){
+                
+                try{d = JSON.parse(file[j])
+                }catch(err) {console.log(err.message)}
+                
+                all_data.push(d)
+            }
+            
+        
+        
+        
+    
+    //Bind data and create one path per GeoJSON feature
+    svg.selectAll("path")
+    .data(json.features)
+    .enter()
+    .append("path")
+    .attr("d", path)
+    .style("fill",stateColor)
+    .style("stroke","white")
+    .style('stroke-width','1px')
+    .on("mouseover", function(d){
+        d3.select(this)      
+        .style('stroke-width','3px')
+        .style('fill','#FFE357')
+        })
+    .on("mouseout", function(d){
+        d3.select(this)
+        .style('stroke','white')
+        .style('stroke-width','1px')
+        .style('fill',stateColor)
+        })
+    .on('click',function(d){
+       
+            document.getElementById("title").innerHTML= d.properties.name;    
+            obj_set=[]
+            for (var k=0;k<all_data.length;k++){
+                if (all_data[k].StateName == d.properties.name) {
+                    obj_set.push(all_data[k])
+                }
+            }
+           
+            // need to get the data values in the right order - the same order as the 'names' array
+            dataset=[]
+            for(l=0; l< names.length;l++){
+                var itemName = names[l]
+                for (x=0; x< names.length;x++){
+                    if (lookup[obj_set[x].IndustryName] == itemName) {dataset.push(obj_set[x].Value)}
+                   
+                }     
+            } // not the brightest way to do this...
+            //console.log(dataset)
+           
+          
+            
+           xScale.domain([0,d3.max(dataset)]);
+            
+     
+            
+        
+            svg2.select('.x.axis')
+                .transition()
+                .duration(500)
+                .call(xAxis)
+            
+            svg2.selectAll('rect')
+                .data(dataset)
+                .transition()
+                .duration(1000)
+                .attr("width", function(d){return xScale(d)
+                    })
+                
+
+                
+    });
+    
+    
+     var svg2 = d3.select("body")
+    .append("svg")
+    .attr("width", w2)
+    .attr("height", h2)
+    
+    dataset=[]
+            var maxVal=25
+            for (var i=0;i<names.length;i++){
+                    dataset.push(Math.floor(Math.random()*maxVal +5))
+            }
+    obj_set=[] // extract all the numeric data values, to find max and min
+    for (var k=0;k<all_data.length;k++){
+                    obj_set.push(all_data[k])       
+            }
+    flattened_data = obj_set.map(function(ob){return ob.Value})                    
+    // create scales
+    var yScale = d3.scale.ordinal()
+            .domain(d3.range(names.length))
+            .rangeRoundBands([margin.top,h2-margin.bottom],0.35);
+            
+    var xScale = d3.scale.linear()
+            .domain([0,d3.max(dataset)])
+            .range([0,w2 - 2*margin.right]);
+    
+                        //Define Y axis
+    var yAxis = d3.svg.axis()
+                .scale(yScale)
+                .orient("left")
+                .tickFormat(function(d,i){return names[i]})
+                .ticks(names.length);
+    
+    var xAxis = d3.svg.axis()
+        .scale(xScale)
+        .orient("bottom")
+        .ticks(4);
+        
+
+
+    // append bars
+            svg2.append("g")
+                .attr("class", "y axis")
+                .attr("transform", "translate(" + padding + ",0)")
+                .call(yAxis);
+            
+            svg2.append("g")
+                .attr("class", "x axis")
+                .attr("transform", "translate(" +padding + "," + (h2 - margin.bottom)+ ")" )
+                .call(xAxis);
+            
+            svg2.append("text")
+                .attr("class", "x label")
+                .attr("transform", "translate(" + w2/2.5   + "," + (h2 -padding/10 )+ ")" )
+                .text("Jobs (Thousands)");
+            svg2.append("text")
+                .attr("id", "title")
+                .attr("transform", "translate(" + w2/2   + "," + (padding/7  )+ ")" )
+                .text("State");
+                
+			svg2.selectAll("rect")
+			   .data(dataset)
+			   .enter()
+			   .append("rect")
+			   .attr("x", function(d) {
+			   	return	0 + padding ;
+			   })
+			   .attr("y", function(d,i) {
+			   		return  yScale(i);
+			   })
+			   .attr("width", function(d,i){return xScale(d)})
+			   .attr("height", yScale.rangeBand())
+			   .attr("fill", function(d,i) {
+					return barColors[i];
+			   })
+			   .on('mouseover',function(){
+			   		d3.select(this)
+			   		  .attr('fill','#FFE357')
+
+
+			   })
+                           
+			   .on('mouseout',function(d,i){
+			   		d3.select(this)
+			   		  .transition()
+			   		  .duration(500)
+			   		  .attr('fill', barColors[i])
+                                        
+
+                                        
+			   })
+                        
+    }) //json                 
+    
+    }); //json
+    
+   
+    
+    </script>
+   
+
+</body>
