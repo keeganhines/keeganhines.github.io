@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Keegan Hines : github home page" />
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="../stylesheets/stylesheet.css">
+	<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-50962617-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+    <title>District Data Labs Incubator</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+<div id="header_wrap" class="outer">
+        <header class="inner">
+	  <ul class='nav' >
+	   
+          
+	  <li><a href='mailto:keegan.hines@gmail.com' target='_blank'><i class="fa fa-envelope"></i></a></li>
+	  <li><a href='https://twitter.com/keeghin' target='_blank'><i class="fa fa-twitter"></i></a></li>
+	  <li><a href='https://www.linkedin.com/in/keeganhines' target='_blank'><i class="fa fa-linkedin"></i></a></li>
+	  <li><a href='http://stackoverflow.com/users/4153882/keegan' target='_blank'><i class="fa fa-stack-overflow"></i></a></li>
+	  <li><a href='https://github.com/keeganhines' target='_blank'><i class="fa fa-github"></i></a></li>
+	  </ul>
+	  <div >
+          <h1 id="project_title" style='text-align:center;'>Keegan Hines</h1>
+	  </div>
+
+        
+	<ul class="nav">
+	<li ><a href="../index.html"> Home </a></li>
+	 <li > <a href="../academics/index.html"> Academics </a></li>
+	 <li ><a href="./index.html"> Blog </a> </li>
+	</ul>
+    </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h3>
+
+<h1>District Data Labs incubator</h1>
+
+<p>
+I recently finished the <a href='http://www.districtdatalabs.com/' target='_blank'>District Data Labs</a> incubator program. This wasn't a full-time immersive incubator like some of the data science bootcamps that are springing up. Rather, it was an opportunity to meet interesting people and work together in small groups on various projects over the course of a few months.
+</p>
+
+<p>  My group (with Yanan and Ali) decided to leverage data from the <a href='http://www.bls.gov/developers/home.htm' target='_blank'> Bureau of Labor Statistics</a> to try to explore trends in job supply and demand. Our original goal was to bolster the existing BLS data with an external data source to provide an accurate (and real-time) measure of job demand. Our goal was to use LinkedIn job posts and conduct some text mining to extract job demand trends in various regions. We ran into a wall with LinkedIn, which would not grant our app access because we were perceived to be generating a service which was competitive with LinkedIn itself. Despite our efforts, we could not convince them otherwise, and had to abondone this goal. (We also tried Indeed and Dice, without much more success).   </p>
+
+<p> We then took an alternative approach. The BLS API is (somewhat) easy to use, but it is still rather laborious to explore the data that the BLS has. We decided to create an interactive data exploration dashboard so that users could easily digest this data. Not knowing anything about web development, I worked through the book <a href='http://chimera.labs.oreilly.com/books/1230000000345' target="_blank"> Interactive Data Visualization for the Web </a> in order to learn about the javascript library d3. d3 is a very popular (and very cool) libray for creating interactive visualizations. Once you get the hang of the common patterns, it's straightforward to create whatever you can dream up.   </p>
+
+<p>Empowered with a bare-minimum knowledge of d3, I created an interactive map for exploring the survey of State, Metro, and Local Employment, Hours and Wages table. This data records the number of jobs held in each state in a number of different industry sectors. <a href="http://keeganhin.es/ddl/index.html" target='_blank'>Here</a> is the result.</p>
+    
+
+      </section>
+    </div>
+
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p>Thanks for taking  a look</p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
