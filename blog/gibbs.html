@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Keegan Hines : github home page" />
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+      <script type="text/javascript"
+  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+    
+    <link rel="stylesheet" type="text/css" media="screen" href="../stylesheets/stylesheet.css">
+	<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-50962617-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+    <title>On distributed Gibbs sampling</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+<div id="header_wrap" class="outer">
+        <header class="inner">
+	  <ul class='nav' >
+	   
+          
+	  <li><a href='mailto:keegan.hines@gmail.com' target='_blank'><i class="fa fa-envelope"></i></a></li>
+	  <li><a href='https://twitter.com/keeghin' target='_blank'><i class="fa fa-twitter"></i></a></li>
+	  <li><a href='https://www.linkedin.com/in/keeganhines' target='_blank'><i class="fa fa-linkedin"></i></a></li>
+	  <li><a href='http://stackoverflow.com/users/4153882/keegan' target='_blank'><i class="fa fa-stack-overflow"></i></a></li>
+	  <li><a href='https://github.com/keeganhines' target='_blank'><i class="fa fa-github"></i></a></li>
+	  </ul>
+	  <div >
+          <h1 id="project_title" style='text-align:center;'>Keegan Hines</h1>
+	  </div>
+
+        
+	<ul class="nav">
+	<li ><a href="../index.html"> Home </a></li>
+	 <li > <a href="../academics/index.html"> Academics </a></li>
+	 <li ><a href="./index.html"> Blog </a> </li>
+	</ul>
+    </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h3>
+
+<h1>On distributed Gibbs sampling</h1>
+
+<p>
+Over the last few months, I'm becoming an ever-increasing fan of Apache Spark. I find it to be a delightfully easy-to-use system for distributed computing and processing large data sets. I'm also a fan of interesting Bayesian models and MCMC methods. Here, I'll describe how simple it is to express some generic Gibbs sampling components in the language of map(), reduce(), and the rest of the gang. As an example, I'll take a look at a simple Bayesian latent variable model and show how we can construct a Gibbs sampler with Spark in order to easily process terabytes of data. This model, while simple, will have many of basic components of more interesting latent variable models (such as LDA or HMM), and the patterns will be easily generalized. 
+</p>
+
+<p>So let's think about a simple latent variable model - a univariate Gaussian mixture model with a finite number of components. That is, for each datapoint \(y_i\), we imagine that \(y_i\) was drawn from one of \(K\) Gaussian distributions, each with distinct mean and standard deviation, </p>
+
+\[
+y_i \sim w_1 N(\mu_1,\sigma_1) + w_2 N(\mu_2,\sigma_2) + ... + w_K N(\mu_K,\sigma_K),
+
+\]
+<p>
+where the notation \( N(\mu,\sigma) \) denotes a Gaussian distribution with mean \( \mu \) and standard deviation \( \sigma \) and the \( w_k\) are the relative weights of each component. Without loss of generatlity, let's consider for now just a two-component model, \(y_i \sim w_1 N(\mu_1,\sigma_1) + w_2 N(\mu_2,\sigma_2) \). In fact, since we're really more interested in discussing Spark than we are in this specific model, let's make a further simplification. Let's assume all model components have the same standard deviation, so we don't need to worry about estimating that parameter - pretend we already know it somehow.
+This leaves us with the following generative model,
+</p>
+\[
+y_i \sim w_1 N(\mu_1,\sigma) + w_2 N(\mu_2,\sigma).
+
+\]
+ 
+ <p>
+   Thus, for each model component, we're only concerned with estimating a single parameter, \(\mu_k \), for that component. This model is intentionally simple (impractically so), but has the same basic guts of many latent variable models. Thus, given some data \( \{y_1,y_2,...\} \) denoted \(y_N\), our goal is to estimate the model parameters \( \{w_1,w_2,\mu_1,\mu_2\} \).
+  In the Bayesian approach, we're interested in the posterior distribution \(p(w_1,w_2,\mu_1,\mu_2 | y_N ) \).
+ </p>
+ 
+ <p>
+  As is typical in Bayesian mixture models, we will proceed with the trick of data augementation (a misnomer, as we'll augment the parameters and not the data). We'll add to the model a latent indicator variable, \( s_i\), for each datapoint \(y_i \). This indicator simply 
+  
+ </p>
+ 
+ 
+      </section>
+    </div>
+
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p>Thanks for taking  a look</p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
