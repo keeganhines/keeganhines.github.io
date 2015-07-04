@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Keegan Hines : github home page" />
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="../stylesheets/stylesheet.css">
+	<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-50962617-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+    <title>Microbreweries and Interactive Maps With Leaflet</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+<div id="header_wrap" class="outer">
+        <header class="inner">
+	  <ul class='nav' >
+	   
+          
+	  <li><a href='mailto:keegan.hines@gmail.com' target='_blank'><i class="fa fa-envelope"></i></a></li>
+	  <li><a href='https://twitter.com/keeghin' target='_blank'><i class="fa fa-twitter"></i></a></li>
+	  <li><a href='https://www.linkedin.com/in/keeganhines' target='_blank'><i class="fa fa-linkedin"></i></a></li>
+	  <li><a href='http://stackoverflow.com/users/4153882/keegan' target='_blank'><i class="fa fa-stack-overflow"></i></a></li>
+	  <li><a href='https://github.com/keeganhines' target='_blank'><i class="fa fa-github"></i></a></li>
+	  </ul>
+	  <div >
+          <h1 id="project_title" style='text-align:center;'>Keegan Hines</h1>
+	  </div>
+
+        
+	<ul class="nav">
+	<li ><a href="../index.html"> Home </a></li>
+	 <li > <a href="../academics/index.html"> Academics </a></li>
+	 <li ><a href="./index.html"> Blog </a> </li>
+	</ul>
+    </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h3>
+
+<h1>Microbreweries and Interactive Maps With Leaflet</h1>
+
+
+    <p>
+    This post is about interactive data visualizations and some powerful new tools that are available to the R community. Moving beyond static data graphics toward interactive experiences allows us to present our audience with much more complex information in an easily digestable way. To empower these interactive graphics, we're going to utilize tools such as HTML and javascript, technologies that drive the web-based interactive experiences you have every day. But the best part is that we'll benefit from these technologies without having to learn anything about web development. We're going to create some amazing things using only R!
+    </p>
+    
+    <p>
+      As a guiding example, I'm going to revist a post from Paul at <a href="http://spatioanalytics.com/2014/07/18/creating-an-interactive-map-of-craft-breweries-in-va-using-the-plotly-r-package/" target="_blank">spatioanalytics</a>.  In that post, Paul visualized the locations of microbreweries in Virginia using <a href="https://plot.ly/", target="_blank">Plotly</a>, a super cool company that allows you to create and deploy interactive graphics on their web-based service. Here, we're going to do this all ourselves, with help from a new R package called <a href="http://rstudio.github.io/leaflet/",target="_blank">leaflet</a>. So let's jump right in. 
+    </p>
+    
+    <p>
+    Here's some boiler-plate stuff. We need to install the package manually from github and then load it.
+    </p>
+    
+   <pre>
+    devtools::install_github("rstudio/leaflet")
+    library(leaflet)
+    library(ggmap)
+   </pre>
+    <p>
+    So first thing, let's grab some location that we might want to put on a map. I'll use a function from the <b>ggmap</b> package.
+    </p>    
+    
+    
+    <pre>
+      somePlace <-ggmap::geocode("Washington,DC")
+      somePlace
+  
+      > somePlace
+        lon      lat
+      1 -77.03687 38.90719
+    </pre>
+    
+    <p>
+    So we have a dataframe (with one row) and lat/lon coordinates for some arbitrary point in Washington, DC.  We're going to use functions from the leaflet package to generate a map around this point.
+    </p>
+    
+       <pre>
+	leaflet(somePlace) %>% addTiles() %>% addMarkers()
+    </pre>
+       
+       
+    <iframe
+    src="./mapFiles/map1.html"
+    style="max-width:100%"
+    width="100%"
+    height="400px"
+    scrolling="no"
+    frameborder="no"
+    ></iframe>
+
+   <p>Now we have this draggable, zoomable, interactive map with a single line of R!</p>   
+    
+    <p>A little explanation of what we just did. In case it's unfamiliar, I'll first point out that we're using the forward pipe %>% thing. The forward pipe was introduced in the <b>magrittr</b> package and has now been adopted in lots of places. The idea is that we can pass the output of a function as the input to the next function. This allows us to write code that reads left to right and  is more aligned with our logic. For example,</p>
+    
+    
+    <pre>
+      
+      # this is nested and confusing, we have to read it inside-out
+      sqrt(sum(c(1,2,3)))
+      
+      # this is sequential and awesome, it reads left to right
+      c(1,2,3) %>% sum() %>% sqrt()
+    </pre>
+    
+    
+    <p> So back to leaflet. The first funciton we use is called leaflet() and this returns a base leaflet object, sort of the starting point for everything we might do. We passed our data frame as an argument to leaflet(), and so any later functions that might require data will look to this data frame. </p>
+    
+    <p> We then sent the output of leaflet() to another function, addTiles(). This is because the output of leaflet() doesn't have enough visual information to actually create a map - we haven't provided enough detail yet about what we want. The function addTiles() updates the leaflet object by providing the visual look and feel through different "tiles". In fact, there's many different styles of map we could make, just by choosing different tiles. Here's some examples.   </p>
+    
+    
+       
+    <pre>
+      leaflet(somePlace) %>% addProviderTiles("Stamen.Watercolor") %>% addMarkers()
+    </pre>
+    
+    
+        <iframe
+    src="./mapFiles/watercolor.html"
+    style="max-width:100%"
+    width="100%"
+    height="400px"
+    scrolling="no"
+    frameborder="no"
+    ></iframe>
+	
+    <pre>
+      leaflet(somePlace) %>% addProviderTiles("Stamen.Toner") %>% addMarkers()
+    </pre>
+    
+    
+        <iframe
+    src="./mapFiles/toner.html"
+    style="max-width:100%"
+    width="100%"
+    height="400px"
+    scrolling="no"
+    frameborder="no"
+    ></iframe>
+
+
+    <p> The full list of available tiles is <a href=" http://leaflet-extras.github.io/leaflet-providers/preview/" target="_blank">here</a>.</p>
+    
+    <p>And so the third function in this simple example is addMarkers(). This function's purpose is pretty obvious and results in the big blue marker thing on the map. What it does is look through the provided data frame for any columns that are similar to "lat" or "lon" and then plots them. And it'll do so for every row in the data frame, so it's effortless to put lots of points on a map, as we'll see below. There are also a few other other functions that are similar and plot slightly different things. You might be able to guess what addCircles() or addPolyLines() are capable of, but as an example, </p>
+    
+    <pre>
+      leaflet(somePlace) %>%
+	  addProviderTiles("Stamen.Toner") %>%
+	  addCircles(radius=400,color='firebrick')
+    </pre>
+    
+    
+        <iframe
+    src="./mapFiles/circle.html"
+    style="max-width:100%"
+    width="100%"
+    height="400px"
+    scrolling="no"
+    frameborder="no"
+    ></iframe>
+    
+    
+    
+    
+    
+    <p> So let's move on to our more interesting example - the breweries. I've scraped a list of microbreweries in Virginia and gotten their names, websites, addresses and so. Since I want lat/lon info as well, I've used ggmap::geocode() to estimate those as well. The result is a dataframe called 'breweries' that has 106 rows and looks like this.  </p>
+    
+    <pre>
+      > names(breweries)
+      [1] "Name"    "Address" "Phone"   "Website" "lat"     "lng"    		
+
+      > head(breweries[,c(1,4:6)])
+			  Name                     Website      lat       lng
+      1  Wolf Hills Brewing Co    www.wolfhillsbrewing.com 36.71231 -81.96560
+      2  Blue Mountain Brewery www.bluemountainbrewery.com 37.96898 -78.83499
+      3 Quattro Goomba Brewery      www.goombabrewery.com/ 38.98597 -77.61748
+      4   Hops Grill & Brewery          www.hopsonline.com 38.83758 -77.05116
+      5   Port City Brewing Co     www.portcitybrewing.com 38.80800 -77.10137
+      6  Loose Shoe Brewing Co    www.looseshoebrewing.com 37.56500 -79.06352
+    </pre>
+    
+    
+    <p> So let's put em on a map.  </p>
+    
+    
+    <pre>
+      leaflet(breweries) %>% addTiles() %>% addMarkers()
+    </pre>
+    
+          <iframe
+    src="./mapFiles/brew1.html"
+    style="max-width:100%"
+    width="100%"
+    height="400px"
+    scrolling="no"
+    frameborder="no"
+    ></iframe>
+    
+    <p> Pretty effortless I'd say! This is great except we don't know which brewery is which, it's just anonymous points on a map. We could try to add some text to a map, but remember our goal is to utilize web-based interactivity. So we're going to take advantage of a click-based popup by inserting the Name column of the data frame.  </p>
+    
+    <pre>
+    leaflet(breweries) %>% addTiles() %>% addMarkers(popup=breweries$Name)
+    </pre>
+    
+    <iframe
+    src="./mapFiles/brew2.html"
+    style="max-width:100%"
+    width="100%"
+    height="400px"
+    scrolling="no"
+    frameborder="no"
+    ></iframe>
+    
+    <p>And one final trick to make it just a little smoother. We want to add a hyperlink to the website in the popup. Since our data frame has a column for all the websites, we could do this easily in a similar way to what we just did with the Name column. But we can take it a step further. Now I promised you that we don't need to know any web development stuff in order to make these maps (and we don't!). But <em>if</em> you happen to have a little side knowledge, you can embed any HTML or javascript that you want. In this case, I'm going to use HTML's < a > tag for hyperlinks, so that each brewery name actually links out to its website.  </p>
+    
+    <pre>
+    popup_style<-paste0("&lt;a href=http://",breweries$Website," target='_blank'&gt;",breweries$Name,"&lt;/a&gt;") 
+    leaflet(breweries) %>% addTiles() %>% addMarkers(popup=breweries$Name)
+    </pre>
+    
+        <iframe
+    src="./mapFiles/brew3.html"
+    style="max-width:100%"
+    width="100%"
+    height="400px"
+    scrolling="no"
+    frameborder="no"
+    ></iframe>
+	
+    <p>Now we can easily zoom around and explore Virginia's thriving craft-brew industry!  You have to admit that's a pretty awesome thing we were able to create with just a couple lines of R. And the interactivity allows us to encode a lot information (locations, names, and website of all the breweries) in a simple exerience that any viewer can explore at their own pace. As you might guess, this is just the beginning of what we can do with leaflet, and there's a great guide at <a href="http://rstudio.github.io/leaflet/" target="_blank" >RStudio's site</a>. </p>
+    
+
+    
+    <p> If you're like me, you're very excited about incorporating web-based interactivity in your data analyses with R. This general idea of wrapping javascript-based experiences into an easy-to-use R package is something that's gaining a lot of traction lately. To me, this is one of the most exciting innovations in the R community in the last couple years and is taking off in many exciting directions. If you want to learn more, I'm developing a course for <a href="http://datasociety.co/" target="_blank">DataSociety</a> entitled "Advanced Visualization With R". In the course, we'll explore many of these web-based technologies including <a href="https://rstudio.github.io/leaflet/" target="_blank">Leaflet</a>, <a href="http://rcharts.io/" target="_blank">rCharts</a>, <a href= "http://shiny.rstudio.com/" target="_blank">Shiny</a> and more, so look to sign up later this summer!  </p>
+    
+
+      </section>
+    </div>
+
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p>Thanks for taking  a look</p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
