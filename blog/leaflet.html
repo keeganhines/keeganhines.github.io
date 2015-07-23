@@ -231,7 +231,7 @@
     
     <pre>
     popup_style<-paste0("&lt;a href=http://",breweries$Website," target='_blank'&gt;",breweries$Name,"&lt;/a&gt;") 
-    leaflet(breweries) %>% addTiles() %>% addMarkers(popup=breweries$Name)
+    leaflet(breweries) %>% addTiles() %>% addMarkers(popup=popup_style)
     </pre>
     
         <iframe
