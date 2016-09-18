@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Keegan Hines : github home page" />
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="../stylesheets/stylesheet.css">
+	<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-50962617-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+    <title>Stop Ransomware With More Ransomware</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+<div id="header_wrap" class="outer">
+        <header class="inner">
+	  <ul class='nav' >
+	   
+          
+	  <li><a href='mailto:keegan.hines@gmail.com' target='_blank'><i class="fa fa-envelope"></i></a></li>
+	  <li><a href='https://twitter.com/keeghin' target='_blank'><i class="fa fa-twitter"></i></a></li>
+	  <li><a href='https://www.linkedin.com/in/keeganhines' target='_blank'><i class="fa fa-linkedin"></i></a></li>
+	  <li><a href='http://stackoverflow.com/users/4153882/keegan' target='_blank'><i class="fa fa-stack-overflow"></i></a></li>
+	  <li><a href='https://github.com/keeganhines' target='_blank'><i class="fa fa-github"></i></a></li>
+	  </ul>
+	  <div >
+          <h1 id="project_title" style='text-align:center;'>Keegan Hines</h1>
+	  </div>
+
+        
+	<ul class="nav">
+	<li ><a href="../index.html"> Home </a></li>
+	 <li > <a href="../academics/index.html"> Academics </a></li>
+	 <li ><a href="./index.html"> Blog </a> </li>
+	</ul>
+    </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h3>
+
+<h1>Stop Ransomware With More Ransomware</h1>
+
+
+<p> 
+
+Ransomware is becoming a pervasive threat to individuals and organizations across the world. Since 2014, the the number of reported ransomware incidents has escalated rapidly, due to many factors including sophisticated malware as well as distribution/delivery mechanisms (exploit kits). In this post, I’ll describe the tactics and threats of ransomware, as well as some higher level implications for prevention. In the first part, I’ll discuss some background information and history, while in the second part I’ll share some musings on the economic factors at play and some potential market perturbations to consider. Ultimately, my interest in this post is less geared toward technical aspects of ransomware detection and prevention, and more toward large-scale market-based factors and their implications.
+</p>
+
+<p>
+<b>Part I.</b>
+</p>
+
+<p> 
+Now, a little bit about ransomware, for the the uninitiated. Unlike a pesky virus, ransomware is aggressive and direct. Ransomware refers to any unwanted software that is unintentionally downloaded and then, in a variety of ways, takes the contents of your computer hostage and attempts to extort you to pay to get your stuff back. The most common approach goes like this. Once downloaded, the malware scans your machine for typical file types that are important. This might include  PDFs or Word docs or  Excel files for you and me but would also include a great variety of other critical files for, say, a server that is doing some important task. Once these target files are identified, the malware begins to encrypt them. I don't think I can give a tremendously satisfying and thorough description here of what encryption is, but let's just continue along with a few simple notions. When your files are encrypted, they become transformed and scrambled in such a way that they are utterly useless and unrecognizable. Importantly, this process can be undone, in a perfect and lossless way, but only in one specific case. You have to have access to a secret key that was used during the encryption process. That's the only way to decrypt them. The net result of this is that the bad guy has essentially locked up your important stuff and he is the only one with the key. As you might guess, the extortion comes next. After your files have been encrypted, the malware gleefully announces itself and apprises you of the situation. <a href = "https://cdn-images-1.medium.com/max/1200/1*5W4AFcs0Ha9EYoPpai__bw.png" target="_blank">Here's an example message </a> from the Locky malware family. It informs you that if you want your stuff back, you have to pay a certain amount (usually a few hundred dollars) in a certain timeframe (usually a couple days) or else the offer expires and your stuff is gone forever. An important point to note is that the financial transactions that take place pretty much always utilize BitCoin. So that's the run-down of ransomware - your important stuff is held hostage and you have to decide whether replacing that stuff is more or less expensive than paying the ransom. For you or me, maybe I don't care so much about my PDFs. But imagine if you're running a hospital and some critical infrastructure has been taken hostage, you'd probably play ball for even enormous sums of money. One thing that interests me more than the technical side of ransomware, is the economic side and business models at play here. To ease into that, let's look back historically a bit and understand the profit margins here.
+</p>
+
+<p>
+A little history. It used to be that cyber criminals were content to sneak onto your computer for reasons such a identity theft. The money-making game was stealing credit card information and selling these records on the black market. For a few important reasons, this pillar of cybercrime has become subdued, with an increasing prevalence of ransomware. The first reason is merely profit potential: the going rate for stolen credit card information has gone from $25 per record to around $5. The second is risk: this line of business is long and drawn out. Once you've stolen a bolus of credit card records, you need to find buyers and then you need to make sparse transactions that go under the radar. This draws out the "time to profit" and often leaves a paper trail, putting you at risk of being caught and also leaving behind evidence for law enforcement. Then, beginning around 2013, we see a huge increase in ransomware and this coincides strongly with the emergence/stability of cryptocurrencies such as BitCoin. These anonymous, instantaneous, and decentralized transactions are a perfect platform for extortionist activity. There is no paper trail (well, there's the public ledger, but it doesn't matter), and there's no financial institutions that will cancel your transactions, and there's no government body that can freeze the assets in your BitCoin wallet. This financial medium eliminated much of the risk inherent to previous forms of cybercrime. And finally, the ubiquity of this extortion approach makes it effortlessly scalable. Instead of spending months researching a high profile Target to crack (pun intended), this malware can be sent about en-masse, is automated, is self-explaining, and passively generates income. In fact, in the last year, things have gotten stranger still. There now exist <a href="http://www.trendmicro.com/vinfo/us/security/news/cybercrime-and-digital-threats/ransomware-as-a-service-ransomware-operators-find-ways-to-bring-in-business" target="_blank">Ransomware-As-A-Service </a> providers, who write really good malware, and get it delivered for you, and all you have to do is supply a list of targets. Then the RaaS providers takes a small cut of whatever you make, and they didn't do any work to identify high-yield targets. Pretty incredible.
+</p>
+
+
+<p>
+<b>Part II.</b>
+</p>
+
+<p>
+So what can be done? Surely there's a variety of prevention and detection methods that clever cybersecurity companies are working on. But I'm more intrigued for now with another angle here. Let's consider this business model and the market it creates. Instead of considering technological methods of ransomware prevention, might it be worth discussing economic and market factors? This extortion market puts all the bargaining power in the hands of the bad guys, who have fully committed to this scheme and put firm time limits on their offers. If victims consistently pay the ransom, then this market stabilizes and the business model prevails. But note that this stability is rather delicately poised on the victims' faith in the system. What if I pay the ransom and don't get my stuff back?  Or I pay the ransom and then the malware just keeps trying to exploit me? I'll obviously stop playing ball. So what, you might think, they got their money already. But I'm considering the macroscopic and networks effects here of this kind of behavior. Our pool of victims doesn't act in isolation. They share information (imperfectly). And certainly when the actors are security professionals within an organization, their information sharing procedures are sophisticated (such as Information Sharing and Analysis Centers). So if my neighbor gets burned by ransomware and never gets his stuff back, I find out about it and I keep this calculation in mind. And this is exactly what happens - about one in five ransomware transactions go south (usually due to the fault of the software) and the ransom is paid without the data being returned. So now we imagine our victims as rational actors who begin to hear that even if I pay the ransom, I may not get my stuff back, and this knowledge goes into my (implicit) expected utility calculation for the value of paying of the ransom and potentially getting the data back. And this information spread, I assert, decreases the probability that victims will play along with ransomware, and thus is destabilizes this market. So can we design a market intervention around this? Here's an absolutely stupid one.
+</p>
+
+<p>
+Let's just make more ransomware. Lots of it. And in particular, ransomware that's broken and never decrypts the data correctly. And then we flood the market with this ransomware. This will drive up the proportion of unsuccessful ransomware interactions, and this information will spread. The entire market will lose faith in buying in to this system, and then people will just stop paying the ransoms ever, because they believe it to be a useless exercise anyway. And then this extortion market would collapse and all the profitability would disappear. This is obviously a quite destructive solution, but it does meet the bare minimum of a decent solution - it would certainly work. It would work and it would be a purely market-intervention based strategy, with no centralized heavy-handedness and no miraculous technologies to be invented. In the short-term, it would involve exacerbating the problem we're trying to solve (it would make it even worse, since our ransomware leaves files forever undecryptable). But the simplicity of this scheme is intellectually appealing. Is there any way to meet in the middle - slightly less destructive but still in this same theme?
+</p>
+
+<p>
+One place to turn might be the emerging Ransomware as a Service market. To recap, the market consists of experts who craft artisanal ransomware and then sell the use and distribution of this malware. Then you or I can come along and pay for their services whereby their malware is directed at some targets of our choice. This market, then, consists of a few number of 'sharks' that really know what they're doing, and a whole bunch of 'fish' that just benefit from those services. So suppose we muck this market up? We pose as sharks and flood this market with low-cost but secretly ineffective ransomware. Then the  "fish" (buyers) would lose faith that this market is a good investment. I suppose this wouldn't work if this market is reputation-based: certain malware providers would gain a reputation for a high-quality product, and our faulty product would probably never get bought. But then, I suppose we could put some effort into generating fake reputation for our products. This idea is, in general, more palatable since we can generate ransomware that fails in a number of ways, some of which are entirely non-destructive. And the effect would still be to destabilize the RaaS market and eroding faith in the products and services provided. This would leave only the "sharks" as the remaining perpetrators of ransomware, which may have a tangible impact on the overall volume. Possibly.
+  </p>
+
+      </section>
+    </div>
+
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p>Thanks for taking  a look</p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
