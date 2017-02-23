@@ -60,8 +60,9 @@
 
 <p>
 In a recent lecture, I gave my students a light introduction to artifical neural networks. As I was devising a follow-on homework assignment on this topic, I came up with a simple thought experiment that led me to a suprisingly simple and rewarding intution about ANNs that I hadn't thought of before.
+</p>
 
-One kind of dataset that I like to use to demonstrate areas where models like Logistic Regression will surely fail is a bullseye dataset like the one shown below. 
+I like to demonstrate situations where models like Logistic Regression will surely fail by using a bullseye dataset like the one shown below. 
 </p>
 
 <img src='./static/ann/bullseye.png' width=90% height=90% align='middle'>
@@ -71,7 +72,7 @@ In these cases, we have a classification problem where we're trying to separate 
 </p>  
 
 <p>
-For simplicity, I'm going to replicate this problem in 1-dimension. As shown below, we have the same basic setup with a two-class classification problem and one of the classes completely surrounds the other. In this simplified case, we have only one numeric feature, which we'll just refer to as "X".
+For simplicity, I'm going to replicate this problem in 1-dimension. As shown below, we have the same basic setup with a two-class classification problem since one of the classes completely surrounds the other. In this simplified case, we have only one numeric feature, which we'll just refer to as "X".
 </p>
 
 <img src='./static/ann/bullseye2.png' width=90% height=90% align='middle'>
@@ -123,7 +124,7 @@ Our points are indeed limited to a linear subspace. And they actually still reta
 <img src='./static/ann/s-space.png' width=90% height=90% align='middle'>
 
 <p>
-Now it becomes quite obvious how the network is able to solve this classification problem. All the datapoints from the "centroid" of our bullseye get project into the top-left corner of s-space and all the other datapoints get push aside to the bottom-left or top-right corners. In s-space, the two classes are easily separated (dashed line) and we can classify them perfectly. So what role did the nonlinearity play here? And how was it able to warp the space in order to creat this separation?
+Now it becomes quite obvious how the network is able to solve this classification problem. All the datapoints from the "centroid" of our bullseye get projected into the top-left corner of s-space and all the other datapoints get push aside to the bottom-left or top-right corners. In s-space, the two classes are easily separated (dashed line) and we can classify them perfectly. So what role did the nonlinearity play here? And how was it able to warp the space in order to create this separation?
 </p>  
 
 <p>
