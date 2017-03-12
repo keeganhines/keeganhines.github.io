@@ -141,7 +141,6 @@ url_strings = bl_strings + wl_strings
 X = prep.to_one_hot_array(url_strings)
 Y = np.concatenate( [ np.ones(len(bl_strings)), np.zeros(len(wl_strings)) ])
 
-(X,Y) = prep.shuffle(X,Y)
 (X_train, X_test,Y_train,Y_test) = prep.train_test_split(X,Y,.5)
 </pre>
 
