@@ -53,7 +53,7 @@
       <section id="main_content" class="inner">
         <h3>
 
-<h1>Snowman: A REST Service For Detecting Malicous Domains With ConvNets</h1>
+<h1>Snowman: A REST Service For Detecting Malicious Domains With ConvNets</h1>
 
 <p>
  In a recent post, I described my implementation of a paper from Invincea where I used an LSTM to build a classifier to detect malicious domains. I wanted to continue in that same vein but go the final step and actually deploy the resulting model in a more useful way. To that end, I've created a project called <a target='_blank', href="https://github.com/keeganhines/snowman"> Snowman </a> where I've trained a convolution neural network for text classification on URLs and then deployed this model behind a REST API so that the model can be queried and used by anyone. On the backend I'm using Flask and deploying through Heroku, and on the modeling side I'm using Keras and Tensorflow. A little bit more detail follows below.
