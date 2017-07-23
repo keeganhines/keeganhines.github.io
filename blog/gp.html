@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Keegan Hines : github home page" />
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="../stylesheets/stylesheet.css">
+	<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-50962617-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<script type="text/javascript"
+  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+    <title>Notes On Gaussian Processes</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+<div id="header_wrap" class="outer">
+        <header class="inner">
+	  <ul class='nav' >
+	   
+          
+	  <li><a href='mailto:keegan.hines@gmail.com' target='_blank'><i class="fa fa-envelope"></i></a></li>
+	  <li><a href='https://twitter.com/keeghin' target='_blank'><i class="fa fa-twitter"></i></a></li>
+	  <li><a href='https://www.linkedin.com/in/keeganhines' target='_blank'><i class="fa fa-linkedin"></i></a></li>
+	  <li><a href='http://stackoverflow.com/users/4153882/keegan' target='_blank'><i class="fa fa-stack-overflow"></i></a></li>
+	  <li><a href='https://github.com/keeganhines' target='_blank'><i class="fa fa-github"></i></a></li>
+	  </ul>
+	  <div >
+          <h1 id="project_title" style='text-align:center;'>Keegan Hines</h1>
+	  </div>
+
+        
+	<ul class="nav">
+	<li ><a href="../index.html"> Home </a></li>
+	 <li > <a href="../academics/index.html"> Academics </a></li>
+	 <li ><a href="./index.html"> Blog </a> </li>
+	</ul>
+    </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h3>
+
+<h1>Notes On Gaussian Processes</h1>
+
+<p>
+Back in grad school, I had a particular interest in a family of Nonparametric Bayesian methods involving the <a href="http://keeganhin.es/static/Biophys_2015_Hines_etal.pdf" target="_blank">Dirichlet Process</a>. Since that time, I have been meaning to catch up on the DP's close cousin, the Gaussian Process. I'm finally getting around to working through <a href="http://www.gaussianprocess.org/gpml/chapters/RW.pdf" target="_blank"> Rasmussen and William's</a> book on this topic, so here I'm jotting down my notes.
+</p>
+
+<h4>Introduction</h4>
+
+<p> While the DP is known to provide a probability distribution over the space of all probability distributions, the Gaussian Process can be thought of a probability distribution on the space of all smooth functions. That is, a single draw from a GP is a smooth function.  Importantly, we can use the GP as a prior for modeling any unknown non-linear relationships we want. Thus, if we have some finite number of observations relating X and Y, we can flexibly model the relationship between the two using a GP prior. Then, we can use the GP posterior for function estimation, interpolation, or forecasting. </p>
+
+<p> Let's get a concrete example up front, then dive into some detail about the GP.  In the figure below, I've shown a small number of observations relating X and Y. </p>
+
+<img src="static/gp/fake_data.png"> 
+
+<p> Pardon the lack of axes labels. We can see that the observations span an x-range of about +/- 15 and the y-range spans a range of +/- 1. These data were generated from a particular function (y = sin(x)), but in practice we never know the true relationship between x and y. Instead, we wish to estimate this unknown non-inear relationship using the observations we do have. Further, it would be nice to not only have an estimate of the function y(x) but also some notion of how uncertain we are about that function. This is what Gaussian Process Regression gets us. To jump to the punchline right away, below I'm plotting the posterior distribution over y(x) when using a particular GP prior. </p>
+
+<img src="static/gp/gp_obs_and_posterior.png"> 
+
+<p>
+The black crosses are the observations, the black line in the posterior mean, and the blue shaded region is a 95% credible interval. Notice that the width of the credible interval is non-constant. In regions where we have several observed data points, we're pretty well able to constrain our estimate of y(x). But in regions where we have very little observed, we have little constraining power, and our uncertainy about our function grows. Again, the credible intervals give us a quantification of this uncertainty given our obervations: they show us what the set of possible functions might be that are consisent with our data. So let's dive into a little more detail about how GPs work.
+</p>
+
+<h4> Sampling a GP </h4>
+
+<p> 
+A Gaussian Process is characterized by two "parameters": a mean function and a covariance kernel.
+</p>
+
+\[
+ g \sim GP(\mu, K)
+\]
+
+
+      </section>
+    </div>
+
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p>Thanks for taking  a look</p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
