@@ -86,7 +86,7 @@ A Gaussian Process is characterized by two "parameters": a mean function and a c
 </p>
 
 \[
- g \sim GP(\mu, K)
+ g \sim GP(\mu, \mathscr{k})
 \]
 
 <p> where again g, being a draw from a GP, is a function over the domain of the kernel. As a concrete example, below are a few draws from a GP. I'll get to the details later on, but here we just want to have some visualizable examples of what's going on. </p>
@@ -148,10 +148,88 @@ Again, by altering \(\Sigma\), we can change the shape of the distribution. Here
 The examples here have involved draws from two-dimensional Normal distributions, but all these premises apply for any higher dimensionality that we might pick. 
 </p>
 
-<h6> Back tp GPs </h6>
+<h6> Back to GPs </h6>
 <p>
-When thinking about the domain of a function (let's call this domain \(x\)), we are typically considering an infinite number of points on the Real Line. Then, \(f(x)\) itself is also an infinite point set, that we're going to start thinking about as an infininte dimensional vector. What if we could draw that vector randomly from probability distribution? Above, we were easily drawing two-dimensional vectors from a known probability distribution. With \(f(x)\), we will draw this infinite-dimensional vector from an infinite-dimensional stochastic process known as the Guassian Process. While this seems impossible, the clever thing about the GP (the reason it gets its name), is that while it is an inherently infinite dimensional object, all possible finite-dimensional marginal distributions are simply Multivariate Normal distributions.
+When thinking about the domain of a function (let's call this domain \(x\)), we are typically considering an infinite number of points on the Real Line. Then, \(f(x)\) itself is also an infinite point set, We're going to start thinking about as an infininte dimensional vector. What if we could draw that vector randomly from probability distribution? Above, we were easily drawing two-dimensional vectors from a known probability distribution. With \(f(x)\), we will draw this infinite-dimensional vector from an infinite-dimensional stochastic process known as the Guassian Process. Thus, we are able to draw random functions from a probability distribution over the set of all funcitons. While this seems impossible, the clever thing about the GP (the reason it gets its name), is that while it is an inherently infinite dimensional object, all possible finite-dimensional marginal distributions are simply Multivariate Normal distributions with a simple mean vector and covariance matrix. 
 </p>  
+
+<p> The GP, being infinite dimensional, is not parameterized by a mean vector and covariance matrix. Instead, it is parameterized by a mean function, and a kernel function. 
+
+\[
+g \sim GP(\mu(x), \mathscr{k}(x,x'))
+\]
+
+<p>
+The mean function \( \mu(x) \) is simply the average value of \(y(x)\) over all possible functions on the domain \(x\). As I mentioned, we can typically just set \( \mu(x)=0,  \forall x\).  
+</p>
+
+<p>
+  The kernel function \( \mathscr{k}(x,x'):\mathbb{R} \times \mathbb{R} \mapsto \mathbb{R} \) is simply a function that takes two points from the domain, call them \(x\) and \(x'\), and computes some notion of "distance" between our expected functions at those two points. The kernel is used to quantify how similar we expect two points \(y\) to be for two points in the domain. There's lot of kernels to choose from and we'll meet just a few of them later on. As we'll see, they help us form a meaningful prior on what kinds of functions we expect to see. 
+</p>
+
+<p>
+So here's an important thing to notice. The GP is parameterized by functions \( \mu \) and \(\mathscr{k}\) which are inherently infinite. But, for any finite set of points \(\{x_1, x_2, ..., x_N\}\) that we might care about, it is easy to compute things like \(\mu(x_1) \) and \( \mathscr{k}(x_1, x_2) \). Recall I said that any finite dimensional marginal of the GP is a Multivariate Normal. Therefore, the trick is that for any fininte point set we have, we can compute \( \vec{\mu} = \{\mu(x_1),...,\mu(x_N)\} \) and
+
+\[
+  \Sigma = \begin{bmatrix} \mathscr{k}(x_1,x_1)  & ... & \mathscr{k}(x_1,x_N) \\ 
+  ...  & ... & ... \\ 
+  \mathscr{k}(x_N,x_1)  & ... &  \mathscr{k}(x_N,x_N) \end{bmatrix}.
+\]
+</p>
+
+<p>
+So to draw a funciton from a GP prior, the procedure is actually quite simple. First, we pick a finite point set from our domain: this point set is where we care to evaluate our random function. We could pick an evenly-spaced grid, or a set of randomized points, absolutely doesn't matter. 
+</p>
+
+<pre> x = np.sort(np.random.uniform(-5,5,200)) </pre>
+
+<p>
+Next, let's pick a kernel and then calculate our \(200 \time 200 \) covariance matrix \( \Sigma \) but simply evaluating the kernel at all pairwise combinations of x values that we have. I'll discuss kernels more later, but for I'll use what's called the Square Exponential kernel. This simple kernel quantifies our prior belief that \(y(x)\) should be similar for any two values of \(x\) that are close, and should be less correlated the father apart the two values of \(x\) are. The result is that our random functions should be kind of smooth and evolve rather slowly. So we'll use this kernel to calculate our finite-sized \(\Sigma \).
+</p>
+
+<pre> 
+kernel = SquaredExponential(1,1)
+
+Sigma = np.zeros((len(x), len(x)))
+for i in range(0, len(x)):
+  for j in range(0, len(x)):
+    Sigma[i,j] = kernel(x[i], x[j])
+</pre>
+
+<p> Now we have a covariance matrix for a regular old Multivariate Normal distribution. For our mean vector, let's just do a vector of zeros. So now, drawing a sample from a GP prior is as simple as, </p>
+
+<pre> g = multivariate_normal(np.zeros(len(x)), Sigma) </pre>
+
+<p>
+That's it. Now we have a function \(g(x) \) that we can visualize against \(x\). Again, here's three different draws from that Multivariate Normal distribution.
+</p>
+
+<img src="static/gp/gp_samples.png">
+
+<p>
+They each evole rather slowly. The mean (over all samples) is approximately 0 at all \(x\). This behavior is indicative of using the Squared Exponential kernel for our prior. Before we get to posterior inference, let's dive into some more detail about kernel choices.
+</p>  
+
+
+<h4> Kernels </h4>
+<p>
+There's many kinds of kernels to choose from and our choice of kernel (and their hyperparameters) has a big impact on the properties of functions that result from our GP. There's a great <a href="http://www.cs.toronto.edu/~duvenaud/cookbook/index.html" target="_blank"> kernel cookbook</a> that you can use for reference, and I will stick to their terminology and definitions. So let's first dive more into that Squared Exponential kernel.
+</p>
+
+<h6> Squared Exponential</h6>
+
+The SE kernel is perhaps the simplest and most common for tasks such as function estimation and interpolation. The functional form should look pretty familiar.
+
+\[
+\mathscr{k}(x,x') = \sigma^2 \textrm{exp}\left(- \frac{(x - x')^2}{2 \mathscr{l}^2}\right)
+\]
+
+<h6> Periodic</h6>
+
+<h6> Locally Periodic</h6>
+
+<h4> Posterior Estimation </h4>
+
 
       </section>
     </div>
