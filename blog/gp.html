@@ -60,7 +60,7 @@
 <h1>Notes On Gaussian Processes</h1>
 
 <p>
-Back in grad school, I had a particular interest in a family of Nonparametric Bayesian methods involving the <a href="http://keeganhin.es/static/Biophys_2015_Hines_etal.pdf" target="_blank">Dirichlet Process</a>. Since that time, I have been meaning to catch up on the DP's close cousin, the Gaussian Process. I'm finally getting around to working through <a href="http://www.gaussianprocess.org/gpml/chapters/RW.pdf" target="_blank"> Rasmussen and William's</a> book on this topic, so here I'm jotting down my notes.
+Back in grad school, I had a particular interest in a family of Nonparametric Bayesian methods involving the <a href="http://keeganhin.es/static/Biophys_2015_Hines_etal.pdf" target="_blank">Dirichlet Process</a>. Since that time, I have been meaning to catch up on the DP's close cousin, the Gaussian Process. I'm finally getting around to working through <a href="http://www.gaussianprocess.org/gpml/chapters/RW.pdf" target="_blank"> Rasmussen and William's</a> book on this topic, so here I'm jotting down my notes. The code is kept in <a href="https://github.com/keeganhines/gp" target="blank"> this repo</a>.
 </p>
 
 <h4>Introduction</h4>
@@ -76,19 +76,82 @@ Back in grad school, I had a particular interest in a family of Nonparametric Ba
 <img src="static/gp/gp_obs_and_posterior.png"> 
 
 <p>
-The black crosses are the observations, the black line in the posterior mean, and the blue shaded region is a 95% credible interval. Notice that the width of the credible interval is non-constant. In regions where we have several observed data points, we're pretty well able to constrain our estimate of y(x). But in regions where we have very little observed, we have little constraining power, and our uncertainy about our function grows. Again, the credible intervals give us a quantification of this uncertainty given our obervations: they show us what the set of possible functions might be that are consisent with our data. So let's dive into a little more detail about how GPs work.
+The black crosses are the observations, the black line is the posterior mean, and the blue shaded region is a 95% credible interval. Notice that the width of the credible interval is non-constant. In regions where we have several observed data points, we're pretty well able to constrain our estimate of y(x). But in regions where we have very little observed data, we have little constraining power, and our uncertainy about our function grows. Again, the credible intervals give us a quantification of this uncertainty given our obervations: they show us what the set of possible functions might be that are consisent with our data. So let's dive into a little more detail about how GPs work.
 </p>
 
 <h4> Sampling a GP </h4>
 
 <p> 
-A Gaussian Process is characterized by two "parameters": a mean function and a covariance kernel.
+A Gaussian Process is characterized by two "parameters": a mean function and a covariance kernel. A single draw from a Gaussian Process is denoted as
 </p>
 
 \[
  g \sim GP(\mu, K)
 \]
 
+<p> where again g, being a draw from a GP, is a function over the domain of the kernel. As a concrete example, below are a few draws from a GP. I'll get to the details later on, but here we just want to have some visualizable examples of what's going on. </p>
+
+<img src="static/gp/gp_samples.png">
+
+<p>
+The figure above shows exactly three draws from a particular GP. The domain of x is about minus 5 to plus 5, and we have a green function, a light-blue function, and a darker-blue function. Each of these functions is relatively smooth and slowly-varying, but they're each pretty different. They're each a random draw from the space of smooth functions. So in order to ease into understanding how to sample from GP priors and posteriors let's start with something more familiar.
+ </p> 
+<h6> Diversion about Gaussian Distributions </h6>
+
+<p>
+Something we're surely familiar with is drawing samples from a Gaussian distribution. 
+
+\[
+x \sim N(\mu, \sigma^2)
+\]
+
+Here, a single random variable x is drawn from a Normal distribution which is parameterized by a mean and a variance. We can visulize the full probability density of this distribution as well a few samples from it.
+</p>
+[insert figure]
+
+<p>
+While we were drawing univariate Gaussian random variables, we can generalize this to higher dimensions with the Multivariate Normal distribution, denoted as  
+
+
+\[
+\vec{x} \sim N(\vec{\mu}, \Sigma)
+\]
+
+Here, our random sample is now a vector is some higher-dimensional space. The distribution is still parameterized by a mean and a variance, but now their higher-dimensional cousins. There is a mean vector, which represents the centroid point in the higher-dimensional space. And then there is Sigma, the covariance matrix. This is an MxM matrix (where M is the dimensionality of the distribution) that quantifies the covariance of each of the dimensions of the space. A two-dimensional example makes things concrete.
+</p>
+
+<p>
+\[
+\vec{\mu} = (1,1)^T
+\]
+
+\[
+\Sigma = \begin{bmatrix} 5 & 3 \\ 3  & 10\end{bmatrix}
+\]
+
+This covariance matrix quantifies how correlated each dimension is, and also the univariate marginal variance of each dimension. So the first row and first column denotes the covariance between dimension \(x_1\) and dimension \(x_1\), ie. how does \(x_1\) vary with itself, ie. what is \(Var(x_1)\). In the first row and second column, we have the element corresponding to the correlation betwee \(x_1\) and \(x_2\). Thus, with the Multivariate Normal distribution, we needn't assume that each dimension of our space is simply a draw from a univariate Normal which is completely independent of the other dimensions. Instead, we explicity model the correlation structure using \(\Sigma\).
+</p>
+
+<p>
+Here's a few draws from the two-dimension Gaussian distribution above as well as the probability density contours of the distribution (note that they're elliptical).
+</p>
+
+[insert figure]
+
+<p>
+Again, by altering \(\Sigma\), we can change the shape of the distribution. Here's a second example with a different \(\Sigma\).
+</p>
+
+[insert figure]
+
+<p>
+The examples here have involved draws from two-dimensional Normal distributions, but all these premises apply for any higher dimensionality that we might pick. 
+</p>
+
+<h6> Back tp GPs </h6>
+<p>
+When thinking about the domain of a function (let's call this domain \(x\)), we are typically considering an infinite number of points on the Real Line. Then, \(f(x)\) itself is also an infinite point set, that we're going to start thinking about as an infininte dimensional vector. What if we could draw that vector randomly from probability distribution? Above, we were easily drawing two-dimensional vectors from a known probability distribution. With \(f(x)\), we will draw this infinite-dimensional vector from an infinite-dimensional stochastic process known as the Guassian Process. While this seems impossible, the clever thing about the GP (the reason it gets its name), is that while it is an inherently infinite dimensional object, all possible finite-dimensional marginal distributions are simply Multivariate Normal distributions.
+</p>  
 
       </section>
     </div>
