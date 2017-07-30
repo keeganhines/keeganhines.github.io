@@ -296,6 +296,63 @@ There are many other kinds of kernels that can be used to capture functions with
 
 <h4> Posterior Estimation </h4>
 
+<p>
+At this point, we've discussed a great deal about this GP object and how we can imagine that it forms a probability distribution over functions. But instead of just drawing samples from that distribution, we want to be able to use this object with real data to form a posterior estimate. That is, given some observed data that we collected and a GP prior, we can quantify the posterior distributions over all smooth functions that might have given rise to our observations. As we'll see, updating our GP prior with our data yields a GP posterior from which we can easily take news draws from the space of functions that explain the data well. Further, we can fully quantify our confidence intervals over function space. 
+</p>  
+
+<p>
+Let's suppose we have some training data \(\{(y(x_i), x_i)\}|i=1,...,N \} \). For this finite sample of \(N\) data points, we have made observations \(y(x_i)\) of our unknown function \(y\) at various points \(x_i\). We want to quantify our estimate about \(y\) for any other potential values of \(x\) for which we don't have observations. We'll refer to these values of \(x\) as our test values \(x_*\). And their corresponding (unknown) values of \(y\) will be called \(y_*\). With a GP prior in place on the relationship between \(x\) and \(y\) for all \(x\), we can ask what is the prior joint probability distribution between all possible training data \(y\) and test data \(y_*\). Since our training data is surely finite, and our test data is some finite set of \(x\) that we are curious about, this induces from the GP a finite-dimensional Multivariate Normal distribution. 
+
+\[
+\begin{bmatrix} y \\ y_* \end{bmatrix} \sim N(\vec{0}, \Sigma)
+\]
+
+And it turns out that the covariance matrix \(\Sigma\) of this Normal distribution breaks into a simple block form 
+
+\[
+\begin{bmatrix} y \\ y_* \end{bmatrix} \sim N\left(\vec{0}, \begin{bmatrix} K(x,x) & K(x,x_*) \\ K(x_*,x) & K(x_*,x_*) \end{bmatrix}  \right)
+\]
+
+where \(K(x,x)\) is the \(N\) by \(N\) covariance matrix that is calculated by applying the kernel to all pairwise combinations of x in the training set. And so on. This is the form of the full joint prior on all possible training and test sets. 
+ </p>
+
+ <p>
+With this prior, the induced posterior distribution over the unknown \(y_*\) for the test data is a Multivariate Normal with mean and covariance that are easily calculated from the components defined above.
+
+\[
+y_* | x_*, x, y \sim N(\vec{\mu}, \Sigma),
+\]
+
+where now,
+
+\[
+\vec{\mu} = K(x_*,x)K(x,x)^{-1}y \\
+\Sigma = K(x_*,x_*) - K(x_*,x)K(x,x)^{-1}K(x,x_*).
+\]
+
+While these final equations might look a little rough, it is with a few simple matrix manipulations and we have a closed-form solution to our posterior over function space. 
+ </p> 
+
+ <p>
+So given any observed pairs \(y(x_i )\) and \(x_i\) and given a GP kernel of our choosing, we can easily caluculate the mean and covariance matrix of a Multivariate Normal distribution that forms our posterior over the test data set. And now we can draw samples exactly as we did above. 
+  </p> 
+
+<img src="static/gp/gp_post_samples.png">  
+
+<p>
+Here we see three samples drawn from our Gaussian Process posterior. Note that each of these functions are fairly different. However, note that near our observed datapoints (the crosses), each of the these functions are in good agreement. These function draws are each a plausible explanation of the data. But also notice that in areas where we don't have much observed data (such as near x=0), the functions are wildly different from each other. This is because we don't have any constraining power there, we are highly uncertain there about \(y(x)\) in those regions.
+</p>  
+
+<p>
+We don't need to draw a bunch of example functions from the posterior. Since our posterior is Multivariate Normal, we can look at the posterior mean and total posterior variance. That is, the mean \(\vec{\mu}\) of our posterior Normal is simply our estimate of the average of all possible functions that could explain the data. In expectation, this is our best "point estimate" of the true underlying function \(y(x)\). Further, our posterior covariance matrix quantifies our estimate of the correlation structure of points in x-space. Along the diagonal of this covariance matrix is our quantification of the full uncertainty of \(y(x_*)\) at each \(x_*\). Therefore, it easy to visualize our "best-guess" function (the posterior mean) as well as a 95% credible interval of our true uncertainty about that function.
+</p>  
+
+<img src="static/gp/gp_posterior_2.png">
+
+<p>
+In the figure above, the observed data are shown as crosses. I've use a GP prior with an SE kernel and length-scale parameter equal to 1. The black curve is the posterior mean and the blue shaded region is the credible interval. Again, in areas where we have several observations, the uncertainty is very low and the credible interval is very narrow. In areas where we have very little data, the credible interval grows larger. Thus, we have our posterior estimate over the space of all non-linear functions \(y(x)\).
+</p>  
+
 <h4> Hyperparameter Learning </h4>
 
 
