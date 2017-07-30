@@ -107,7 +107,7 @@ x \sim N(\mu, \sigma^2)
 
 Here, a single random variable x is drawn from a Normal distribution which is parameterized by a mean and a variance. We can visulize the full probability density of this distribution as well a few samples from it.
 </p>
-[insert figure]
+<img src="static/gp/norm_samples.png">
 
 <p>
 While we were drawing univariate Gaussian random variables, we can generalize this to higher dimensions with the Multivariate Normal distribution, denoted as  
@@ -122,11 +122,11 @@ Here, our random sample is now a vector is some higher-dimensional space. The di
 
 <p>
 \[
-\vec{\mu} = (1,1)^T
+\vec{\mu} = (0,0)^T
 \]
 
 \[
-\Sigma = \begin{bmatrix} 5 & 3 \\ 3  & 10\end{bmatrix}
+\Sigma = \begin{bmatrix} 1 & .8 \\ .8  & 1\end{bmatrix}
 \]
 
 This covariance matrix quantifies how correlated each dimension is, and also the univariate marginal variance of each dimension. So the first row and first column denotes the covariance between dimension \(x_1\) and dimension \(x_1\), ie. how does \(x_1\) vary with itself, ie. what is \(Var(x_1)\). In the first row and second column, we have the element corresponding to the correlation betwee \(x_1\) and \(x_2\). Thus, with the Multivariate Normal distribution, we needn't assume that each dimension of our space is simply a draw from a univariate Normal which is completely independent of the other dimensions. Instead, we explicity model the correlation structure using \(\Sigma\).
@@ -136,16 +136,11 @@ This covariance matrix quantifies how correlated each dimension is, and also the
 Here's a few draws from the two-dimension Gaussian distribution above as well as the probability density contours of the distribution (note that they're elliptical).
 </p>
 
-[insert figure]
+<img src="static/gp/mvn_samples.png">
+<img src="static/gp/mvn_contours.png">
 
 <p>
-Again, by altering \(\Sigma\), we can change the shape of the distribution. Here's a second example with a different \(\Sigma\).
-</p>
-
-[insert figure]
-
-<p>
-The examples here have involved draws from two-dimensional Normal distributions, but all these premises apply for any higher dimensionality that we might pick. 
+Again, note that the two dimensions can have linear correlation structure and we use \(\Sigma\) to track and quantify that.  The examples here have involved draws from two-dimensional Normal distributions, but all these premises apply for any higher dimensionality that we might pick. 
 </p>
 
 <h6> Back to GPs </h6>
