@@ -224,11 +224,79 @@ The SE kernel is perhaps the simplest and most common for tasks such as function
 \mathscr{k}(x,x') = \sigma^2 \textrm{exp}\left(- \frac{(x - x')^2}{2 \mathscr{l}^2}\right)
 \]
 
+<p>
+You'll recognize that this happens to be the forms of a univariate Gaussian distribution. This simply quantifies that points that are close together should be the most correlation, and that the correlation should fall off gradually with distance.  Notice that this kernel only depends on the relative distance \(|x - x'| \) and not on the precise locations of \(x\) or \(x\), thus this kernel is said to be isotropic. Let's visualize the kernel's "profile" as a function of the distance \(|x - x'| \): it looks like half of a Guassian distribution.
+</p>
+
+<img src="static/gp/se_kern_1.png"> 
+
+<p> Again, notice that this kernel is maximized when the distance between two points approaches zero, and then it falls off. The rate at which the correlation falls of is controlled by the length-scale parameter \(\mathscr{l} \). If we make \(\mathscr{l} \) larger, then we expect correlations at longer spatial scales. Here's the kernel profile when we make \(\mathscr{l} \) larger. </p>
+
+<img src="static/gp/se_kern_2.png"> 
+
+<p>
+And here's a few samples from that corresponding GP prior.
+</p>
+<img src="static/gp/gp_samples_se_1.png"> 
+
+<p>
+Notice that these functions are far less wiggly and evolve more slowly. That's because we expect \(g(x)\) and \(g(x')\) to be more highly correlated over longer spatial scales.
+</p>  
+
+<p> The \(\sigma^2\) hyperparameter in the SE kernel simply controls the typical variance of the range of \(g(x)\). Alright, let's move on to another kernel. </p>
+
+
 <h6> Periodic</h6>
+
+<p>
+The Periodic kernel can be used to quantify any prior guess we have that our functions of interest have some temporally repeating structure on some timescale. Here's the functional form of the Periodic kernel,
+</p>
+
+\[
+\mathscr{k}(x,x') = \sigma^2 \textrm{exp}\left(- \frac{2\textrm{sin}^2(\frac{\pi|x - x'|}{p})}{ \mathscr{l}^2}\right)
+\]
+
+<p>Here is the profile of the Periodic kernel. </p>
+<img src="static/gp/periodic_kern_1.png">
+<p>
+Like the SE kernel, the Periodic kernel is maximal when the distance between the points approaches zero and then it rolls off away from that point. But unlike the SE kernel, the Periodic kernel rises again to a maximum at fixed intervals defined the by hyperparameter \(p\). Thus, it creates a kernel structure that has high correlations are regular intervals. Let's look at a few draws from the corresponding GP prior. 
+</p>
+
+<img src="static/gp/gp_samples_periodic_1.png">
+
+<p>
+Notice that each of these three functions has a repeating structure to it, yet they're each quite different. One way to think about these function draws is that a randomized function is create (as if from the SE kernel) and then that base function is repeated at a fixed period. So each of our three function draws has the same periodicity, but the underlying form that is being repeated is quite arbitrary. Note that this repitition occur indefinitely in both directions, forming a perfectly periodic signal. If, however, we want functions that are slightly periodic on small spatial scales and much less correlated on longer time scales, we can turn to the Locally Periodic kernel.
+</p>  
 
 <h6> Locally Periodic</h6>
 
+<p>
+The Locally Periodic kernel is just the product of an SE kernel and a Periodic kernel. It is a kernel with periodic correlation structure, but where the strength of that periodic correlation decays over long scales. The equation for this kernel is 
+
+
+\[
+\mathscr{k}(x,x') = \sigma^2 \textrm{exp}\left(- \frac{2\textrm{sin}^2(\frac{\pi|x - x'|}{p})}{ \mathscr{l}^2}\right) \textrm{exp}\left(- \frac{(x - x')^2}{2 \mathscr{l}^2}\right).
+\]
+</p>
+
+<p>
+The kernel profile has periodic peaks, but those peaks decay in their magnitude.
+</p>  
+<img src="static/gp/lp_kern_1.png">
+
+<p>
+Function draws from a GP using this kernel should have short-scale periodic structure, but periodicity is not strictly fixed. Instead, disparate parts of the signal might be quite uncorrelated with each other. Here's a few functions draws.
+</p>  
+<img src="static/gp/gp_samples_lp_1.png">
+
+
+<p>
+There are many other kinds of kernels that can be used to capture functions with sharper discontinuities or other features that we might be interested in. Here I've discussed only a few, but if you're interested in learning more, you can turn to the book <a href= "http://www.gaussianprocess.org/gpml/" target="_blank">Gaussian Proccesses For Machine Learning</a> or to the <a href="http://www.cs.toronto.edu/~duvenaud/cookbook/index.html" target="_blank"> Kernel Cookbook</a>.
+</p>  
+
 <h4> Posterior Estimation </h4>
+
+<h4> Hyperparameter Learning </h4>
 
 
       </section>
