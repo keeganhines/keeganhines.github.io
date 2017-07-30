@@ -350,6 +350,17 @@ In the figure above, the observed data are shown as crosses. I've use a GP prior
 
 <h4> Hyperparameter Learning </h4>
 
+<p>
+An issue I've glossed over so far is how we pick the hyperparameters of our kernels. From some of the example function draws, we saw that different hyperparameter settings can have a real impact on the type of functions that are generated from a GP. Similarly, these hyperparameters will have an effect on the final posterior estimate. So far, I've just picked the hyperparamters for my kernels rather arbitrarily and just hoped for the best. Obviously, we'd want to do better than that. I haven't yet implemented any method for hyperparameter learning, but here's a few thoughts.
+</p>  
+
+<p>
+The kernel hyperparameters represent just yet another unknown in our model, so we can do well to just optimze them. The simplest solution (and the one implemented in scikit-learns GP classes) is to do maximum likelihood estimation to find the best hyperparameters. This results in a point-estimate of the hyperparameters and then posterior estimation (conditioned on that point estimate) is straight forward, it's what we did above.
+</p>   
+
+<p>
+But to be fully Bayesian about it, we'd just add the hyperparameters to our posterior inference problem. We'd pick a prior distribution for each, and then aim to generate a posterior approximation using MCMC most likely. I don't think there's many useful conjugacies we can exploit between the hyperparameters and the posterior on \(y\), so you'll likely have to use a generic form of MCMC such as slice sampling or Metropolis-Hastings. Then, if we can generate a bunch of iid draws \(\theta_i\) from the posterior over the hyperparameters, we can solve for the posterior over \(y\) given \(\theta_i\) as we did above. Then, aggregating over all of those posterior draws, we have marginalized out the uncertainty in \(\theta\) using Monte Carlo integration. This, then, would give us our most honest estimate of the posterior mean and posterior confidence intervals. I haven't yet gotten to implementing this hyperparameter estimation, but hopefully will have a chance to soon.
+</p>
 
       </section>
     </div>
