@@ -66,7 +66,7 @@ The effective detection of malicious activity in cyber networks is of paramount 
 <h4>On the Nature of Detection: Building "Good" Models</h4>
 
 <p>
-Let's suppose we have a clear-cut classification problem before us. As an example, we will build a classifier which is able to distinguish malicious URIs from benign URIs after being trained with a labelled dataset. Many machine learning methods can be brought to bear on this problem and for the sake of this post I'll follow the strategy <a target="_blank" href="https://arxiv.org/abs/1702.08568"> reported previously from Invincea</a>  and train a deep convolutional neural network to perform this task. After sufficient training and validation, we are left with a model that seems to perform this task well and we evaluate this model using common metrics. For example, below we show a Receiver Operator Characteristic curve when this model is applied to hold-out test data. 
+Let's suppose we have a clear-cut classification problem before us. As an example, we will build a classifier which is able to distinguish malicious URIs from benign URIs after being trained with a labelled dataset. Many machine learning methods can be brought to bear on this problem and for the sake of this post I'll follow the strategy <a target="_blank" href="https://arxiv.org/abs/1702.08568"> reported previously from Invincea</a>  and train a deep convolutional neural network to perform this task. After sufficient training and validation, we are left with a model that seems to perform this task well and we evaluate this model using common metrics. For example, below I show a Receiver Operator Characteristic curve when this model is applied to hold-out test data. 
 </p>
 <img width=500 src="./static/base_rate/ROC.png">
 <p>
