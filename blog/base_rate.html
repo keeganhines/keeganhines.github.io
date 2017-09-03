@@ -76,11 +76,11 @@ What this ROC curve tells us is that our model seems to perform fairly well on u
 <h4>A Lurking Adversary: Thomas Bayes</h4>
 
 <p>
-In our goal of building a useful system for cyber defense, let's suppose our system can throw alerts when our model identifies seemingly malicious activity. Thus, we have two random variables to take into consideration for this problem. We have the presence or absence of "alerts", which I'll denote as the random variable \(A\). And we have the presence or absence of "bad guys", which we'll denote as the random variable \(B\). Recall the model we described in the last section and ask this simple question: If an end-user sees an alert, what the probability that there was actually a bad guy conducting malicious activities that we tracked in the data? 
+In our goal of building a useful system for cyber defense, let's suppose our system can throw alerts when our model identifies seemingly malicious activity. Thus, we have two random variables to take into consideration for this problem. We have the presence or absence of "alerts", which I'll denote as the random variable \(A\). And we have the presence or absence of "bad guys", which I'll denote as the random variable \(B\). Recall the model we described in the last section and ask this simple question: If an end-user sees an alert, what the probability that there was actually a bad guy conducting malicious activities that we tracked in the data? 
 </p>
 
 <p>
-It is tempting to think that this probability is equal to the True Positive Rate of our model, or 99%. But of course, as good students of probability theory, we know this is not the case. What our end-user actually cares about is the posterior probability of "bad guy" given an "alert".
+It is tempting to think that this probability is equal to the True Positive Rate of our model, or 99%. But of course, as good students of probability theory, we know this is not the case. What our end-user actually cares about is the posterior probability of "bad guy" given an "alert",
 </p>
 
 
@@ -97,7 +97,7 @@ p(B | A) = \frac{p(A|B) p(B)}{p(A)},
 \]
 
 <p>
-where the denominator, \(p(A)\), is the marginal likelihood of an alert, which we will return to shortly. For now, the numerator is of more direct interest and is composed of the likelihood of an alert given a bad guy, and the prior probability of a bad guy. The likelihood is within our control, and is the result of all of our research efforts. This is, again, the probability of successfully flagging an alert, given that there is truly some bad guy activity going on in the data. This is exactly our True Positive Rate that we measured about our model, which is about 0.99 because our model is pretty good. However, the first distressing thing to note is the effect of the other term in the numerator, the prior \(p(B)\). 
+where the denominator, \(p(A)\), is the marginal likelihood of an alert, which I will return to shortly. For now, the numerator is of more direct interest and is composed of the likelihood of an alert given a bad guy, and the prior probability of a bad guy. The likelihood is within our control, and is the result of all of our research efforts. This is, again, the probability of successfully flagging an alert, given that there is truly some bad guy activity going on in the data. This is exactly our True Positive Rate that we measured about our model, which is about 0.99 because our model is pretty good. However, the first distressing thing to note is the effect of the other term in the numerator, the prior \(p(B)\). 
 </p>
 
 <p>
@@ -131,7 +131,7 @@ obviously a disappointingly small posterior probability. Even if we can improve 
 </p>
 
 <p>
-We attribute this discouraging situation to the prior scarcity of malicious data, or conversely, the prior abundance of benign data. Looking at the denominator of Baye's rule, \(p(B)p(A|B) + p(\neg B)p(A|\neg A)\), we see: our ability to detect the thing we're looking for (\(p(A|B)\) is essentially erased by the minuscule prior \(p(B)\). And further, our ability to discard the things we're not looking for (\(p(A|\neg B)\) is overwhelmed by the large prior \(p(\neg B)\). A difficult spot to be in.
+We attribute this discouraging situation to the prior scarcity of malicious data, or conversely, the prior abundance of benign data. Looking at the denominator of Baye's rule, \(p(B)p(A|B) + p(\neg B)p(A|\neg A)\), we see: our ability to detect the thing we're looking for (\(p(A|B))\) is essentially erased by the minuscule prior \(p(B)\). And further, our ability to discard the things we're not looking for (\(p(A|\neg B))\) is overwhelmed by the large prior \(p(\neg B)\). A difficult spot to be in.
 </p>
 
 
@@ -165,7 +165,7 @@ p(B|A) &= \frac{p(A|B)p(B)}{p(B)p(A|B)}, \\
 \]
 
 <p>
-thus giving us full confidence in these alerts. In fact, the values of \(p(A|B)\) and \(p(B)\) become irrelevant in this case and we are always fully confident in the results, simply because our scan detector does not throw any false positive. So as soon as we see any alert, we know it means we what intended it to mean.
+thus giving us full confidence in these alerts. In fact, the precise values of \(p(A|B)\) and \(p(B)\) become irrelevant in this case and we are always fully confident in the results, simply because our scan detector does not throw any false positive. So as soon as we see any alert, we know it means we what intended it to mean.
 </p>
 
 <p>
